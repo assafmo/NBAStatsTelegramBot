@@ -24,7 +24,7 @@ This telegram bot follows a twitter account and sends tweets that match certain 
     ```
     Get your telegram `chat_id` by messaging your bot in the desired chat and checking `https://api.telegram.org/bot<BOT_KEY>/getUpdates`.  
 
-4. Keyswords live in `./keywords` as a `.js` module.  
+4. Keyswords go in the `./keywords` folder as a `.js` module.  
     Each keyword list is a `Promise`d array of strings.  
     Keywords are case-insensitive.
 
