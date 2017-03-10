@@ -1,5 +1,5 @@
 # This bot lives in [@nbaespnstats](https://t.me/nbaespnstats)
-This telegram bot tracks a twitter account and send tweets that match certain keywords to a chat.
+This telegram bot follows a twitter account and sends tweets that match certain keywords to a specific chat.
 
 # Usage
 1. [Create a twitter app](https://apps.twitter.com)
@@ -22,11 +22,11 @@ This telegram bot tracks a twitter account and send tweets that match certain ke
         }
     }
     ```
-    Get your telegram `chat_id` by messaging your bot in a chat and checking `https://api.telegram.org/bot<BOT_KEY>/getUpdates`.  
+    Get your telegram `chat_id` by messaging your bot in the desired chat and checking `https://api.telegram.org/bot<BOT_KEY>/getUpdates`.  
 
 4. Keyswords live in `./keywords` as a `.js` module.  
-Each keyword list is a `Promise`d array of strings.  
-Keywords are case-insensitive.
+    Each keyword list is a `Promise`d array of strings.  
+    Keywords are case-insensitive.
 
 5. Execute `node main.js` 
 
