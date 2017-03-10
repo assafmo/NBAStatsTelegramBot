@@ -4,7 +4,7 @@ const Twitter = require('twitter');
 
 const config = require(path.join(__dirname, 'config.json'));
 
-const ESPNStatsInfoTwitterID = '53120768';
+const TwitterAccountIDToFollow = config.twitter.account_id_to_follow;
 const telegramBotUrl = `https://api.telegram.org/bot${config.telegram.bot_key}`;
 const telegramChatID = config.telegram.chat_id;
 
@@ -23,9 +23,9 @@ const keywords = Promise.all(require('fs')
         .reduce((x, y) => x.concat(y), [])
         .map(keyword => keyword.toLowerCase()));
 
-twitterClient.stream('statuses/filter', { track: 'nba' }, function (stream) {
+twitterClient.stream('statuses/filter', { follow: TwitterAccountIDToFollow }, function (stream) {
     stream.on('data', function (tweet) {
-        if (!tweet.user || tweet.user.id != ESPNStatsInfoTwitterID)
+        if (!tweet.user || tweet.user.id != TwitterAccountIDToFollow)
             return;
 
         keywords.then(keywords => {
