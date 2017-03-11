@@ -23,9 +23,13 @@ const keywords = Promise.all(require('fs')
         .reduce((x, y) => x.concat(y), [])
         .map(keyword => keyword.toLowerCase()));
 
-twitterClient.stream('statuses/filter', { follow: TwitterAccountIDToFollow }, function (stream) {
+twitterClient.stream('statuses/filter', { track: 'nba' }, function (stream) {
     stream.on('data', function (tweet) {
-        if (!tweet.user || tweet.user.id != TwitterAccountIDToFollow)
+        if (tweet.lang != 'en')
+            return;
+        if (!tweet.user)
+            return;
+        if (tweet.user.id != TwitterAccountIDToFollow)
             return;
 
         keywords.then(keywords => {
@@ -34,11 +38,12 @@ twitterClient.stream('statuses/filter', { follow: TwitterAccountIDToFollow }, fu
                 if (lowerTweetText.includes(keyword)) {
                     const photo = tweet.entities &&
                         tweet.entities.media &&
+                        tweet.entities.media.length &&
                         tweet.entities.media.filter(m => m.type == 'photo')[0];
                     const url = `${telegramBotUrl}/${photo ? 'sendPhoto' : 'sendMessage'}`;
                     const form = Object.assign(
-                        { chat_id: telegramChatID },
-                        photo ? { photo: photo.media_url_https, caption: tweet.text } : { text: tweet.text }
+                        { chat_id: telegramChatID, disable_web_page_preview: true },
+                        photo ? { photo: photo.media_url_https || photo.media_url, caption: tweet.text } : { text: tweet.text }
                     );
 
                     request.post({ url: url, form: form });
