@@ -59,7 +59,7 @@ function handleTweet(tweet) {
             const [tweet, keywordsLower] = tweetAndkeywordsLower;
 
             const tweetTextLower = tweet.text.toLowerCase().replace(/\n/g, '');
-            let isNbaRelated = true;
+            let isNbaRelated = false;
             for (let keyword of keywordsLower) {
                 if (tweetTextLower.includes(keyword)) {
                     isNbaRelated = true;
