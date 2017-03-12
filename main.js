@@ -2,7 +2,7 @@ const path = require('path');
 const request = require('request');
 const Twitter = require('twitter');
 
-const debug = true;
+const debug = false;
 const config = require(path.join(__dirname, `config${debug ? '_test' : ''}.json`));
 
 const twitterAccountIDToFollow = config.twitter.account_id_to_follow;
