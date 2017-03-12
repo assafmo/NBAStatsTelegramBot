@@ -27,8 +27,7 @@ const keywordsPromieses = keywordsFiles.map(f => require(path.join(__dirname, '/
 const keywordsPromise = Promise.all(keywordsPromieses)
     .then(keywordsArrays =>
         keywordsArrays
-            .reduce((x, y) => x.concat(y), [])
-            .map(keyword => keyword.toLowerCase()));
+            .reduce((x, y) => x.concat(y), []));
 
 twitterClient.stream('statuses/filter', { follow: twitterAccountIDToFollow }, function (stream) {
     console.log('ok.');
@@ -55,13 +54,13 @@ function handleTweet(tweet) {
             })) : Promise.resolve(tweet);
 
     Promise.all([tweetPromise, keywordsPromise])
-        .then(tweetAndkeywordsLower => {
-            const [tweet, keywordsLower] = tweetAndkeywordsLower;
+        .then(tweetAndkeywords => {
+            const [tweet, keywords] = tweetAndkeywords;
 
-            const tweetTextLower = tweet.text.toLowerCase().replace(/\n/g, '');
+            const tweetText = tweet.text.replace(/\n/g, '');
             let isNbaRelated = false;
-            for (let keyword of keywordsLower) {
-                if (tweetTextLower.includes(keyword)) {
+            for (let keyword of keywords) {
+                if (tweetText.includes(keyword)) {
                     isNbaRelated = true;
                     console.log(tweet.id_str, "keyword:", keyword);
                     break;
