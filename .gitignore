@@ -1,2 +1,3 @@
 config.json
-config_test.json
+config_debug.json
+.vscode
