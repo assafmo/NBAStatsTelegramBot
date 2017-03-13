@@ -10,8 +10,8 @@ This telegram bot follows a twitter account and sends tweets that match certain 
     ```json
     {
         "telegram": {
-            "chat_id": "YOUR_TELEGRAM_CHAT_ID",
-            "bot_key": "YOUR_TELEGRAM_BOT_KEY"
+            "chat_id": "<YOUR_TELEGRAM_CHAT_ID>",
+            "bot_key": "<YOUR_TELEGRAM_BOT_KEY>"
         },
         "twitter": {
             "account_id_to_follow": "GET_AT http://idfromuser.com/",
@@ -22,11 +22,11 @@ This telegram bot follows a twitter account and sends tweets that match certain 
         }
     }
     ```
-    Get your telegram `chat_id` by messaging your bot in the desired chat and checking `https://api.telegram.org/bot<BOT_KEY>/getUpdates`.  
+    Get your telegram `chat_id` by messaging your bot in the desired chat and checking `https://api.telegram.org/bot<YOUR_TELEGRAM_BOT_KEY>/getUpdates`.  
 
 4. Keyswords go in the `./keywords` folder as a `.js` module.  
     Each keyword list is a `Promise`d array of strings.  
-    Keywords are case-insensitive.
+    Keywords are case-sensitive.
 
 5. Execute `node main.js` 
 
