@@ -40,6 +40,7 @@ twitterClient.stream('statuses/filter', { follow: twitterAccountIDToFollow }, fu
     });
 });
 
+let lastTweetId;
 function handleTweet(tweet) {
     if (!tweet.user)
         return;
@@ -69,6 +70,9 @@ function handleTweet(tweet) {
 
             if (!isNbaRelated)
                 return;
+            if (tweet.id_str == lastTweetId)
+                return;
+            lastTweetId = tweet.id_str;
 
             const photo = tweet.entities &&
                 tweet.entities.media &&
