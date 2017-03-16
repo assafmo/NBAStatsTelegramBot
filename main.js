@@ -60,10 +60,11 @@ function handleTweet(tweet) {
 
             const tweetText = tweet.text.replace(/\n/g, '');
             let isNbaRelated = false;
+            let foundKeyword;
             for (let keyword of keywords) {
                 if (tweetText.includes(keyword)) {
                     isNbaRelated = true;
-                    console.log(tweet.id_str, "keyword:", keyword);
+                    foundKeyword = keyword;
                     break;
                 }
             }
@@ -73,6 +74,8 @@ function handleTweet(tweet) {
             if (tweet.id_str == lastTweetId)
                 return;
             lastTweetId = tweet.id_str;
+
+            console.log(tweet.id_str, "keyword:", foundKeyword);
 
             const photo = tweet.entities &&
                 tweet.entities.media &&
@@ -109,6 +112,7 @@ function handleTweet(tweet) {
 
 if (debug) {
     twitterClient.get('https://api.twitter.com/1.1/statuses/show/841852350746763264', (err, tweet) => {
+        handleTweet(tweet);
         handleTweet(tweet);
     });
 }
