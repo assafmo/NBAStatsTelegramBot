@@ -75,20 +75,22 @@ function handleTweet(tweet) {
                 tweet.entities.media.length &&
                 tweet.entities.media.filter(m => m.type == 'photo')[0];
 
+            const finalText = tweet.text.replace(/&amp;/g, '&');
+
             let telegramMessageUrl, telegranMessageData;
             if (photo) {
                 telegramMessageUrl = `${telegramBotUrl}/sendPhoto`;
                 telegranMessageData = {
                     chat_id: telegramChatID,
                     photo: photo.display_url || photo.media_url_https || photo.media_url,
-                    caption: tweet.text
+                    caption: finalText
                 };
             }
             else {
                 telegramMessageUrl = `${telegramBotUrl}/sendMessage`;
                 telegranMessageData = {
                     chat_id: telegramChatID,
-                    text: tweet.text,
+                    text: finalText,
                     disable_web_page_preview: true
                 };
             }
@@ -97,12 +99,12 @@ function handleTweet(tweet) {
                 url: telegramMessageUrl,
                 form: telegranMessageData
             });
-            console.log(tweet.id_str, "text:", tweet.text);
+            console.log(tweet.id_str, "text:", finalText);
         });
 }
 
 if (debug) {
-    twitterClient.get('https://api.twitter.com/1.1/statuses/show/840679980883308544', (err, tweet) => {
+    twitterClient.get('https://api.twitter.com/1.1/statuses/show/841852350746763264', (err, tweet) => {
         handleTweet(tweet);
     });
 }
