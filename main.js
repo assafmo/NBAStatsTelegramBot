@@ -47,12 +47,14 @@ function handleTweet(tweet) {
     if (tweet.user.id != twitterAccountIDToFollow)
         return;
 
-    const tweetPromise = tweet.truncated ?
-        new Promise(resolve =>
-            twitterClient.get(`https://api.twitter.com/1.1/statuses/show/${tweet.id_str}`, { tweet_mode: 'extended' }, (err, extendedTweet) => {
-                extendedTweet.text = extendedTweet.full_text;
-                resolve(extendedTweet);
-            })) : Promise.resolve(tweet);
+    if (typeof tweet.retweeted_status == 'object')
+        tweet = tweet.retweeted_status;
+
+    const tweetPromise = new Promise(resolve =>
+        twitterClient.get(`https://api.twitter.com/1.1/statuses/show/${tweet.id_str}`, { tweet_mode: 'extended' }, (err, extendedTweet) => {
+            extendedTweet.text = extendedTweet.full_text;
+            resolve(extendedTweet);
+        }));
 
     Promise.all([tweetPromise, keywordsPromise])
         .then(tweetAndkeywords => {
@@ -113,7 +115,7 @@ function handleTweet(tweet) {
 }
 
 if (debug) {
-    twitterClient.get('https://api.twitter.com/1.1/statuses/show/845575997856505857', (err, tweet) => {
+    twitterClient.get('https://api.twitter.com/1.1/statuses/show/847156547969077248', (err, tweet) => {
         handleTweet(tweet);
         handleTweet(tweet);
     });
