@@ -74,7 +74,6 @@ module.exports = Promise.resolve([
     "OG Anunoby",
     "Peter Jok",
     "PJ Dozier",
-    "Player",
     "Rodions Kurucs",
     "Semi Ojeleye",
     "Sindarius Thornwell",
