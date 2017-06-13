@@ -22,11 +22,18 @@ const twitterClient = new Twitter({
     access_token_secret: config.twitter.access_token_secret
 });
 
-const keywordsFiles = require('fs').readdirSync(path.join(__dirname, '/keywords'));
-const keywordsPromieses = keywordsFiles.map(f => require(path.join(__dirname, '/keywords', f)));
+const keywordsFiles = require('fs').readdirSync(path.join(__dirname, 'keywords'));
+const keywordsPromieses = keywordsFiles.map(f => require(path.join(__dirname, 'keywords', f)));
 const keywordsPromise = Promise.all(keywordsPromieses)
     .then(keywordsArrays =>
         keywordsArrays
+            .reduce((x, y) => x.concat(y), []));
+
+const blacklistFiles = require('fs').readdirSync(path.join(__dirname, 'keywords_blacklist'));
+const blacklistPromieses = blacklistFiles.map(f => require(path.join(__dirname, 'keywords_blacklist', f)));
+const blacklistPromise = Promise.all(blacklistPromieses)
+    .then(blacklistArrays =>
+        blacklistArrays
             .reduce((x, y) => x.concat(y), []));
 
 twitterClient.stream('statuses/filter', { follow: twitterAccountIDToFollow }, function (stream) {
@@ -56,28 +63,41 @@ function handleTweet(tweet) {
             resolve(extendedTweet);
         }));
 
-    Promise.all([tweetPromise, keywordsPromise])
-        .then(tweetAndkeywords => {
-            const [tweet, keywords] = tweetAndkeywords;
+    Promise.all([tweetPromise, keywordsPromise, blacklistPromise])
+        .then(tweetKeywordsBlacklist => {
+            const [tweet, keywords, blacklist] = tweetKeywordsBlacklist;
 
             const tweetText = tweet.text.replace(/\n/g, '');
             let isNbaRelated = false;
-            let foundKeyword;
+            let foundKeywords = [];
             for (let keyword of keywords) {
                 if (tweetText.includes(keyword)) {
-                    isNbaRelated = true;
-                    foundKeyword = keyword;
-                    break;
+                    foundKeywords.push(keyword);
                 }
             }
 
+            foundKeywords = foundKeywords.filter(keyword => {
+                for (let entry of blacklist) {
+                    if (entry.is_accepted_because == keyword && tweetText.includes(entry.blacklist)) {
+                        console.log(tweet.id_str, "blacklist found:", entry.blacklist);
+                        return false;
+                    }
+                }
+                return true;
+            });
+
+            if (foundKeywords.length > 0)
+                isNbaRelated = true;
+
             if (!isNbaRelated)
                 return;
-            if (tweet.id_str == lastTweetId)
+            if (tweet.id_str == lastTweetId) {
+                console.log(tweet.id_str, "DUPLICATED!");
                 return;
+            }
             lastTweetId = tweet.id_str;
 
-            console.log(tweet.id_str, "keyword:", foundKeyword);
+            console.log(tweet.id_str, "keywords:", foundKeywords.join(','));
 
             const photo = tweet.entities &&
                 tweet.entities.media &&
@@ -126,7 +146,7 @@ function handleTweet(tweet) {
 }
 
 if (debug) {
-    twitterClient.get('https://api.twitter.com/1.1/statuses/show/874459098141663232', (err, tweet) => {
+    twitterClient.get('https://api.twitter.com/1.1/statuses/show/866685102935244800', (err, tweet) => {
         handleTweet(tweet);
         handleTweet(tweet);
     });
