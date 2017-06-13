@@ -84,7 +84,18 @@ function handleTweet(tweet) {
                 tweet.entities.media.length &&
                 tweet.entities.media.filter(m => m.type == 'photo')[0];
 
-            let finalText = tweet.text.replace(/&amp;/g, '&');
+            let finalText = tweet.text
+                .replace(/&amp;/g, `&`)
+                .replace(/&gt;/g, `>`)
+                .replace(/&lt;/, `<`)
+                .replace(/&quot;/, `"`)
+                .replace(/&apos;/, `'`)
+                .replace(/&cent;/, `¢`)
+                .replace(/&pound;/, `£`)
+                .replace(/&yen;/, `¥`)
+                .replace(/&euro;/, `€`)
+                .replace(/&copy;/, `©`)
+                .replace(/&reg;/, `®`);
 
             let telegramMessageUrl, telegranMessageData;
             if (photo) {
@@ -115,7 +126,7 @@ function handleTweet(tweet) {
 }
 
 if (debug) {
-    twitterClient.get('https://api.twitter.com/1.1/statuses/show/847156547969077248', (err, tweet) => {
+    twitterClient.get('https://api.twitter.com/1.1/statuses/show/874459098141663232', (err, tweet) => {
         handleTweet(tweet);
         handleTweet(tweet);
     });
