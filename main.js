@@ -42,7 +42,7 @@ twitterClient.stream('statuses/filter', { follow: twitterAccountIDToFollow }, fu
     stream.on('data', handleTweet);
 
     stream.on('error', function (error) {
-        console.error(JSON.stringify(error, null, 4));
+        console.log(error);
         process.exit(1);
     });
 });
@@ -99,10 +99,10 @@ function handleTweet(tweet) {
 
             console.log(tweet.id_str, "keywords:", foundKeywords.join(','));
 
-            const photo = tweet.entities &&
-                tweet.entities.media &&
-                tweet.entities.media.length &&
-                tweet.entities.media.filter(m => m.type == 'photo')[0];
+            const photos = tweet.extended_entities &&
+                tweet.extended_entities.media &&
+                tweet.extended_entities.media.length &&
+                tweet.extended_entities.media.filter(m => m.type == 'photo');
 
             let finalText = tweet.text
                 .replace(/&amp;/g, `&`)
@@ -118,15 +118,23 @@ function handleTweet(tweet) {
                 .replace(/&reg;/, `®`);
 
             let telegramMessageUrl, telegranMessageData;
-            if (photo) {
+            if (photos && photos.length > 0) {
                 telegramMessageUrl = `${telegramBotUrl}/sendPhoto`;
-                finalText = finalText.replace(photo.url, '');
 
-                telegranMessageData = {
-                    chat_id: telegramChatID,
-                    photo: photo.display_url || photo.media_url_https || photo.media_url,
-                    caption: finalText
-                };
+
+                for (let photo of photos) {
+                    finalText = finalText.replace(photo.url, '');
+                    telegranMessageData = {
+                        chat_id: telegramChatID,
+                        photo: photo.media_url_https || photo.display_url || photo.media_url,
+                        caption: finalText
+                    };
+
+                    request.post({
+                        url: telegramMessageUrl,
+                        form: telegranMessageData
+                    });
+                }
             }
             else {
                 telegramMessageUrl = `${telegramBotUrl}/sendMessage`;
@@ -135,18 +143,19 @@ function handleTweet(tweet) {
                     text: finalText,
                     disable_web_page_preview: true
                 };
+
+                request.post({
+                    url: telegramMessageUrl,
+                    form: telegranMessageData
+                });
             }
 
-            request.post({
-                url: telegramMessageUrl,
-                form: telegranMessageData
-            });
             console.log(tweet.id_str, "text:", finalText);
         });
 }
 
 if (debug) {
-    twitterClient.get('https://api.twitter.com/1.1/statuses/show/866685102935244800', (err, tweet) => {
+    twitterClient.get('https://api.twitter.com/1.1/statuses/show/875135478797938690', (err, tweet) => {
         handleTweet(tweet);
         handleTweet(tweet);
     });
