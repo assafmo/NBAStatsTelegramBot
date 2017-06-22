@@ -107,15 +107,15 @@ function handleTweet(tweet) {
             let finalText = tweet.text
                 .replace(/&amp;/g, `&`)
                 .replace(/&gt;/g, `>`)
-                .replace(/&lt;/, `<`)
-                .replace(/&quot;/, `"`)
-                .replace(/&apos;/, `'`)
-                .replace(/&cent;/, `¢`)
-                .replace(/&pound;/, `£`)
-                .replace(/&yen;/, `¥`)
-                .replace(/&euro;/, `€`)
-                .replace(/&copy;/, `©`)
-                .replace(/&reg;/, `®`);
+                .replace(/&lt;/g, `<`)
+                .replace(/&quot;/g, `"`)
+                .replace(/&apos;/g, `'`)
+                .replace(/&cent;/g, `¢`)
+                .replace(/&pound;/g, `£`)
+                .replace(/&yen;/g, `¥`)
+                .replace(/&euro;/g, `€`)
+                .replace(/&copy;/g, `©`)
+                .replace(/&reg;/g, `®`);
 
             let telegramMessageUrl, telegranMessageData;
             if (photos && photos.length > 0) {
@@ -155,7 +155,7 @@ function handleTweet(tweet) {
 }
 
 if (debug) {
-    twitterClient.get('https://api.twitter.com/1.1/statuses/show/875135478797938690', (err, tweet) => {
+    twitterClient.get('https://api.twitter.com/1.1/statuses/show/877336518267813888', (err, tweet) => {
         handleTweet(tweet);
         handleTweet(tweet);
     });
