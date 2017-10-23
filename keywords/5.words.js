@@ -4,5 +4,6 @@ module.exports = Promise.resolve([
     "#NBA",
     "Steph Curry",
     "LeBron",
+    "J.R. Smith",
     "King James"
 ]);
