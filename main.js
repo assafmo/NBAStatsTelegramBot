@@ -117,36 +117,28 @@ function handleTweet(tweet) {
                 .replace(/&copy;/g, `©`)
                 .replace(/&reg;/g, `®`);
 
-            let telegramMessageUrl, telegranMessageData;
+            const telegramMessageUrl = `${telegramBotUrl}/sendMessage`;
             if (photos && photos.length > 0) {
-                telegramMessageUrl = `${telegramBotUrl}/sendPhoto`;
-
-
                 for (let photo of photos) {
                     finalText = finalText.replace(photo.url, '');
-                    telegranMessageData = {
-                        chat_id: telegramChatID,
-                        photo: photo.media_url_https || photo.display_url || photo.media_url,
-                        caption: finalText
-                    };
-
                     request.post({
                         url: telegramMessageUrl,
-                        form: telegranMessageData
+                        form: {
+                            chat_id: telegramChatID,
+                            parse_mode: 'HTML',
+                            text: `<a href="${photo.media_url_https || photo.display_url || photo.media_url}">&#8203;</a>${finalText}`
+                        }
                     });
                 }
             }
             else {
-                telegramMessageUrl = `${telegramBotUrl}/sendMessage`;
-                telegranMessageData = {
-                    chat_id: telegramChatID,
-                    text: finalText,
-                    disable_web_page_preview: true
-                };
-
                 request.post({
                     url: telegramMessageUrl,
-                    form: telegranMessageData
+                    form: {
+                        chat_id: telegramChatID,
+                        text: finalText,
+                        disable_web_page_preview: true
+                    }
                 });
             }
 
@@ -155,8 +147,10 @@ function handleTweet(tweet) {
 }
 
 if (debug) {
-    twitterClient.get('https://api.twitter.com/1.1/statuses/show/877336518267813888', (err, tweet) => {
-        handleTweet(tweet);
-        handleTweet(tweet);
-    });
+    const toSend = ['928464438339895297', '928645865270661125', '928630758599561216', '928476855358824449']
+    for (let tId of toSend) {
+        twitterClient.get(`https://api.twitter.com/1.1/statuses/show/${tId}`, (err, tweet) => {
+            handleTweet(tweet);
+        });
+    }
 }
