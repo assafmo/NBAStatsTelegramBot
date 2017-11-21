@@ -29,5 +29,6 @@ module.exports = Promise.resolve([
     "Tim Duncan",
     "Wes Unseld",
     "Willis Reed",
-    "Wilt Chamberlain"
+    "Wilt Chamberlain",
+    "Russell Westbrook"
 ]);
