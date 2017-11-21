@@ -5,7 +5,7 @@ const Twitter = require('twitter');
 const playersKeywords = new Promise((resolve, reject) => {
     require('request').get({ url: 'http://www.nba.com/players/active_players.json', json: true }, (err, resp, json) => {
         resolve(json.map(x => [x.firstName, x.lastName].filter(x => x).join(' ')));
-    })
+    });
 });
 const coachesKeywords = Promise.resolve([
     "Brad Stevens",
@@ -253,11 +253,11 @@ function handleTweet(tweet, twitterClient, telegramBotUrl, telegramChatID, cb) {
             }
 
             console.log(tweet.id_str, "text:", finalText);
-            cb(null, { [tweet.id_str]: finalText })
+            cb(null, { id: tweet.id_str, text: finalText });
         });
 }
 
-const inDebug = process.argv[2] === 'debug';
+const inDebug = process && Array.isArray(process.argv) && process.argv[2] === 'debug';
 if (inDebug) {
     const config = require(require('path').join(__dirname, `config_debug.json`));
     const telegramBotUrl = `https://api.telegram.org/bot${config.telegram.bot_key}`;
@@ -270,33 +270,36 @@ if (inDebug) {
         access_token_secret: config.twitter.access_token_secret
     });
 
-    const toSend = ['928464438339895297', '928645865270661125', '928630758599561216', '928476855358824449']
+    const toSend = ['928464438339895297', '928645865270661125', '928630758599561216', '928476855358824449'];
     for (let tId of toSend) {
         twitterClient.get(`https://api.twitter.com/1.1/statuses/show/${tId}`, (err, tweet) => {
             handleTweet(tweet, twitterClient, telegramBotUrl, telegramChatID);
         });
     }
 }
-else {
-    module.exports = function (ctx, cb) {
-        const tweetUrlSplit = ctx.query.tweet_url.split('/');
-        if (tweetUrlSplit.length < 1) {
-            return cb({ error: `address ${ctx.query.tweet_url} from querystring param tweet_url doesn't have tweet_id` });
+
+module.exports = (ctx, cb) => {
+    const tweetUrlSplit = ctx.query.tweet_url.split('/');
+    if (tweetUrlSplit.length < 1) {
+        return cb({ error: `address ${ctx.query.tweet_url} from querystring param tweet_url doesn't have tweet_id` });
+    }
+
+    const telegramBotUrl = `https://api.telegram.org/bot${ctx.secrets.telegram_bot_key}`;
+    const telegramChatID = ctx.secrets.telegram_chat_id;
+
+    const twitterClient = new Twitter({
+        consumer_key: ctx.secrets.twitter_consumer_key,
+        consumer_secret: ctx.secrets.twitter_consumer_secret,
+        access_token_key: ctx.secrets.twitter_access_token_key,
+        access_token_secret: ctx.secrets.twitter_access_token_secret
+    });
+
+    const tId = tweetUrlSplit[tweetUrlSplit.length - 1];
+    twitterClient.get(`https://api.twitter.com/1.1/statuses/show/${tId}`, (err, tweet) => {
+        if (err) {
+            return cb(err);
         }
 
-        const telegramBotUrl = `https://api.telegram.org/bot${ctx.secrets.telegram_bot_key}`;
-        const telegramChatID = ctx.secrets.telegram_chat_id;
-
-        const twitterClient = new Twitter({
-            consumer_key: ctx.secrets.twitter_consumer_key,
-            consumer_secret: ctx.secrets.twitter_consumer_secret,
-            access_token_key: ctx.secrets.twitter_access_token_key,
-            access_token_secret: ctx.secrets.twitter_access_token_secret
-        });
-
-        const tId = tweetUrlSplit[tweetUrlSplit.length - 1];
-        twitterClient.get(`https://api.twitter.com/1.1/statuses/show/${tId}`, (err, tweet) => {
-            handleTweet(tweet, twitterClient, telegramBotUrl, telegramChatID, cb);
-        });
-    }
-}
+        handleTweet(tweet, twitterClient, telegramBotUrl, telegramChatID, cb);
+    });
+};
