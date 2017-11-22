@@ -254,36 +254,12 @@ function handleTweet(tweet, telegramBotUrl, telegramChatID, cb) {
         });
 }
 
-const inDebug = process && Array.isArray(process.argv) && process.argv[2] === 'debug';
-if (inDebug) {
-    const config = require(require('path').join(__dirname, `config_debug.json`));
-    const telegramBotUrl = `https://api.telegram.org/bot${config.telegram.bot_key}`;
-    const telegramChatID = config.telegram.chat_id;
-
-    const twitterClient = new Twitter({
-        consumer_key: config.twitter.consumer_key,
-        consumer_secret: config.twitter.consumer_secret,
-        access_token_key: config.twitter.access_token_key,
-        access_token_secret: config.twitter.access_token_secret
-    });
-
-    const toSend = ['928464438339895297', '928645865270661125', '928630758599561216', '928476855358824449'];
-    for (let tId of toSend) {
-        twitterClient.get(`https://api.twitter.com/1.1/statuses/show/${tId}`, { tweet_mode: 'extended' }, (err, tweet) => {
-            handleTweet(tweet, telegramBotUrl, telegramChatID);
-        });
-    }
-}
-
 module.exports = (ctx, cb) => {
     if (!ctx.query.tweet_url) {
         return cb('no querystring param tweet_url')
     }
-
     const tweetUrlSplit = ctx.query.tweet_url.split('/');
-    if (tweetUrlSplit.length < 1) {
-        return cb({ error: `address ${ctx.query.tweet_url} from querystring param tweet_url doesn't have tweet_id` });
-    }
+    const tweetID = tweetUrlSplit[tweetUrlSplit.length - 1];
 
     const telegramBotUrl = `https://api.telegram.org/bot${ctx.secrets.telegram_bot_key}`;
     const telegramChatID = ctx.secrets.telegram_chat_id;
@@ -295,8 +271,7 @@ module.exports = (ctx, cb) => {
         access_token_secret: ctx.secrets.twitter_access_token_secret
     });
 
-    const tId = tweetUrlSplit[tweetUrlSplit.length - 1];
-    twitterClient.get(`https://api.twitter.com/1.1/statuses/show/${tId}`, { tweet_mode: 'extended' }, (err, tweet) => {
+    twitterClient.get(`https://api.twitter.com/1.1/statuses/show/${tweetID}`, { tweet_mode: 'extended' }, (err, tweet) => {
         if (err) {
             return cb(err);
         }
@@ -304,3 +279,29 @@ module.exports = (ctx, cb) => {
         handleTweet(tweet, telegramBotUrl, telegramChatID, cb);
     });
 };
+
+
+const inDebug = process && Array.isArray(process.argv) && process.argv[2] === 'debug';
+if (inDebug) {
+    const config = require(require('path').join(__dirname, `config_debug.json`));
+
+    const webtaskSecrets = {
+        twitter_consumer_key: config.twitter.consumer_key,
+        twitter_consumer_secret: config.twitter.consumer_secret,
+        twitter_access_token_key: config.twitter.access_token_key,
+        twitter_access_token_secret: config.twitter.access_token_secret,
+        telegram_bot_key: config.telegram.bot_key,
+        telegram_chat_id: config.telegram.chat_id
+    }
+
+    const tweetsToCheck = ['928464438339895297', '928645865270661125', '928630758599561216', '928476855358824449'];
+    for (let tweetID of tweetsToCheck) {
+        module.exports(
+            {
+                query: { tweet_url: `https://twitter.com/ESPNStatsInfo/status/${tweetID}` },
+                secrets: webtaskSecrets
+            },
+            function () { console.log('webtask callback:', ...arguments) }
+        );
+    }
+}
