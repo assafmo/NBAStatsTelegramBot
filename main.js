@@ -164,21 +164,18 @@ const blacklistPromise = Promise.resolve([
     { is_accepted_because: "Hawks", blacklist: "Black Hawks", }
 ]);
 
-function handleTweet(tweet, twitterClient, telegramBotUrl, telegramChatID, cb) {
+function handleTweet(tweet, telegramBotUrl, telegramChatID, cb) {
     cb = cb || (() => { });
 
     if (typeof tweet.retweeted_status == 'object')
         tweet = tweet.retweeted_status;
 
-    const tweetPromise = new Promise(resolve =>
-        twitterClient.get(`https://api.twitter.com/1.1/statuses/show/${tweet.id_str}`, { tweet_mode: 'extended' }, (err, extendedTweet) => {
-            extendedTweet.text = extendedTweet.full_text;
-            resolve(extendedTweet);
-        }));
 
-    Promise.all([tweetPromise, keywordsPromise, blacklistPromise])
+    tweet.text = tweet.full_text;
+
+    Promise.all([keywordsPromise, blacklistPromise])
         .then(tweetKeywordsBlacklist => {
-            const [tweet, keywords, blacklist] = tweetKeywordsBlacklist;
+            const [keywords, blacklist] = tweetKeywordsBlacklist;
 
             const tweetText = tweet.text.replace(/\n/g, '');
             let isNbaRelated = false;
@@ -272,8 +269,8 @@ if (inDebug) {
 
     const toSend = ['928464438339895297', '928645865270661125', '928630758599561216', '928476855358824449'];
     for (let tId of toSend) {
-        twitterClient.get(`https://api.twitter.com/1.1/statuses/show/${tId}`, (err, tweet) => {
-            handleTweet(tweet, twitterClient, telegramBotUrl, telegramChatID);
+        twitterClient.get(`https://api.twitter.com/1.1/statuses/show/${tId}`, { tweet_mode: 'extended' }, (err, tweet) => {
+            handleTweet(tweet, telegramBotUrl, telegramChatID);
         });
     }
 }
@@ -299,11 +296,11 @@ module.exports = (ctx, cb) => {
     });
 
     const tId = tweetUrlSplit[tweetUrlSplit.length - 1];
-    twitterClient.get(`https://api.twitter.com/1.1/statuses/show/${tId}`, (err, tweet) => {
+    twitterClient.get(`https://api.twitter.com/1.1/statuses/show/${tId}`, { tweet_mode: 'extended' }, (err, tweet) => {
         if (err) {
             return cb(err);
         }
 
-        handleTweet(tweet, twitterClient, telegramBotUrl, telegramChatID, cb);
+        handleTweet(tweet, telegramBotUrl, telegramChatID, cb);
     });
 };
