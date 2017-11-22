@@ -279,6 +279,10 @@ if (inDebug) {
 }
 
 module.exports = (ctx, cb) => {
+    if (!ctx.query.tweet_url) {
+        return cb('no querystring param tweet_url')
+    }
+
     const tweetUrlSplit = ctx.query.tweet_url.split('/');
     if (tweetUrlSplit.length < 1) {
         return cb({ error: `address ${ctx.query.tweet_url} from querystring param tweet_url doesn't have tweet_id` });
