@@ -8,13 +8,13 @@ This Telegram bot is a https://webtask.io webtask, that when given a tweet ID (e
 
 3. Keyswords go inside `main.js` as the parameters `playersKeywords`, `coachesKeywords`, `mvpsKeywords`,`teamsKeywords`, `draftKeywords` and `wordsKeywords`.  
     Each keyword list is a `Promise`d array of strings.  
-    Keywords are case-sensitive.
+    Keywords are case-insensitive.
 
 4. Blacklist entries go inside `main.js` as the parameter `blacklistPromise`.  
     The blacklist parameter is a `Promise`d array of Objects.  
     Each Object is of the form `{ is_accepted_because: "Hawks",blacklist: "Black Hawks"}`.
     This means that if the bot will find `Hawks` as a keyword but also `Black Hawks`, then it won't consider `Hawks` as a keyword for this tweet. 
-    Blacklist Keywords are case-sensitive.
+    Blacklist Keywords are case-insensitive.
 
 5. Create a new https://webtask.io webtask.  
 ```bash
