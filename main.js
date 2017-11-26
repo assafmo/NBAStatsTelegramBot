@@ -177,18 +177,18 @@ function handleTweet(tweet, telegramBotUrl, telegramChatID, cb) {
         .then(tweetKeywordsBlacklist => {
             const [keywords, blacklist] = tweetKeywordsBlacklist;
 
-            const tweetText = tweet.text.replace(/\n/g, '');
+            const tweetText = tweet.text.replace(/\n/g, '').toLowerCase();
             let isNbaRelated = false;
             let foundKeywords = [];
             for (let keyword of keywords) {
-                if (tweetText.includes(keyword)) {
+                if (tweetText.includes(keyword.toLowerCase())) {
                     foundKeywords.push(keyword);
                 }
             }
 
             foundKeywords = foundKeywords.filter(keyword => {
                 for (let entry of blacklist) {
-                    if (entry.is_accepted_because == keyword && tweetText.includes(entry.blacklist)) {
+                    if (entry.is_accepted_because == keyword && tweetText.includes(entry.blacklist.toLowerCase())) {
                         console.log(tweet.id_str, "blacklist found:", entry.blacklist);
                         return false;
                     }
@@ -294,7 +294,7 @@ if (inDebug) {
         telegram_chat_id: config.telegram.chat_id
     }
 
-    const tweetsToCheck = ['928464438339895297', '928645865270661125', '928630758599561216', '928476855358824449'];
+    const tweetsToCheck = ['928464438339895297', '928645865270661125', '928630758599561216', '928476855358824449', '934823312181596162'];
     for (let tweetID of tweetsToCheck) {
         module.exports(
             {
