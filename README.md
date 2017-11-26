@@ -26,13 +26,13 @@ This telegram bot follows a twitter account and sends tweets that match certain 
 
 4. Keyswords go in the `./keywords` folder as a `.js` module.  
     Each keyword list is a `Promise`d array of strings.  
-    Keywords are case-sensitive.
+    Keywords are case-insensitive.
 
 5. Blacklist entries go in the `./keywords_blacklist` folder as a `.js` module.  
     Each keyword list is a `Promise`d array of Objects.  
     Each Object is of the form `{ is_accepted_because: "Hawks",blacklist: "Black Hawks"}`.
     This means that if the bot will find `Hawks` as a keyword but also `Black Hawks`, then it won't consider `Hawks` as a keyword for this tweet. 
-    Blacklist Keywords are case-sensitive.
+    Blacklist Keywords are case-insensitive.
 
 6. Execute `node main.js` 
 
