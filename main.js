@@ -161,7 +161,8 @@ const keywordsPromise = Promise.all([
 ]).then(keywordsArrays => keywordsArrays.reduce((x, y) => x.concat(y), []));
 
 const blacklistPromise = Promise.resolve([
-    { is_accepted_because: "Hawks", blacklist: "Black Hawks", }
+    { is_accepted_because: "Hawks", blacklist: "Black Hawks", },
+    { is_accepted_because: "kings", blacklist: "Vikings", }
 ]);
 
 function handleTweet(tweet, telegramBotUrl, telegramChatID, cb) {
@@ -188,7 +189,7 @@ function handleTweet(tweet, telegramBotUrl, telegramChatID, cb) {
 
             foundKeywords = foundKeywords.filter(keyword => {
                 for (let entry of blacklist) {
-                    if (entry.is_accepted_because == keyword && tweetText.includes(entry.blacklist.toLowerCase())) {
+                    if (entry.is_accepted_because.toLowerCase() == keyword.toLowerCase() && tweetText.includes(entry.blacklist.toLowerCase())) {
                         console.log(tweet.id_str, "blacklist found:", entry.blacklist);
                         return false;
                     }
@@ -294,7 +295,7 @@ if (inDebug) {
         telegram_chat_id: config.telegram.chat_id
     }
 
-    const tweetsToCheck = ['928464438339895297', '928645865270661125', '928630758599561216', '928476855358824449', '934823312181596162'];
+    const tweetsToCheck = ['934972949324619776'];
     for (let tweetID of tweetsToCheck) {
         module.exports(
             {
