@@ -78,7 +78,7 @@ function handleTweet(tweet) {
 
             foundKeywords = foundKeywords.filter(keyword => {
                 for (let entry of blacklist) {
-                    if (entry.is_accepted_because == keyword && tweetText.includes(entry.blacklist.toLowerCase())) {
+                    if (entry.is_accepted_because.toLowerCase() == keyword.toLowerCase() && tweetText.includes(entry.blacklist.toLowerCase())) {
                         console.log(tweet.id_str, "blacklist found:", entry.blacklist);
                         return false;
                     }
@@ -147,7 +147,7 @@ function handleTweet(tweet) {
 }
 
 if (debug) {
-    const toSend = ['928464438339895297', '928645865270661125', '928630758599561216', '928476855358824449', '934823312181596162']
+    const toSend = ['934972949324619776']
     for (let tId of toSend) {
         twitterClient.get(`https://api.twitter.com/1.1/statuses/show/${tId}`, (err, tweet) => {
             handleTweet(tweet);
