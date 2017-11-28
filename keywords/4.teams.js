@@ -7,6 +7,7 @@ module.exports = Promise.resolve([
     "Knicks",
     "Philadelphia 76ers",
     "76ers",
+    "Sixers",
     "Toronto Raptors",
     "Raptors",
     "Golden State Warriors",
