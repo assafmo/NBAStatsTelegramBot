@@ -204,7 +204,7 @@ function handleTweet(tweet, telegramBotUrl, telegramChatID, cb) {
             }
 
             if (!isNbaRelated) {
-                return cb({ error: 'Not NBA related' });
+                return cb(null, { error: 'Not NBA related' });
             }
 
             console.log(tweet.id_str, "keywords:", foundKeywords.join(','));
@@ -259,7 +259,7 @@ function handleTweet(tweet, telegramBotUrl, telegramChatID, cb) {
 
 module.exports = (ctx, cb) => {
     if (!ctx.query.tweet_url) {
-        return cb('no querystring param tweet_url')
+        return cb(null, { error: 'no querystring param tweet_url' })
     }
     const tweetUrlSplit = ctx.query.tweet_url.split('/');
     const tweetID = tweetUrlSplit[tweetUrlSplit.length - 1];
@@ -270,13 +270,13 @@ module.exports = (ctx, cb) => {
     const twitterClient = new Twitter({
         consumer_key: ctx.secrets.twitter_consumer_key,
         consumer_secret: ctx.secrets.twitter_consumer_secret,
-        access_token_key: ctx.secrets.twitter_access_token_key,
+        access_token: ctx.secrets.twitter_access_token_key,
         access_token_secret: ctx.secrets.twitter_access_token_secret
     });
 
-    twitterClient.get(`https://api.twitter.com/1.1/statuses/show/${tweetID}`, { tweet_mode: 'extended' }, (err, tweet) => {
+    twitterClient.get(`statuses/show/:id`, { id: tweetID, tweet_mode: 'extended' }, (err, tweet) => {
         if (err) {
-            return cb(err);
+            return cb(null, { error: err });
         }
 
         handleTweet(tweet, telegramBotUrl, telegramChatID, cb);
@@ -297,7 +297,7 @@ if (inDebug) {
         telegram_chat_id: config.telegram.chat_id
     }
 
-    const tweetsToCheck = ['934972949324619776'];
+    const tweetsToCheck = ['934972949324619776', '935871219303198722'];
     for (let tweetID of tweetsToCheck) {
         module.exports(
             {
