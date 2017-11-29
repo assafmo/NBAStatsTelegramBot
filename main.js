@@ -1,5 +1,5 @@
 const request = require('request');
-const Twitter = require('twitter');
+const Twitter = require('twit');
 
 // Keywords
 const playersKeywords = new Promise((resolve, reject) => {
@@ -163,7 +163,8 @@ const keywordsPromise = Promise.all([
 
 const blacklistPromise = Promise.resolve([
     { is_accepted_because: "Hawks", blacklist: "Black Hawks", },
-    { is_accepted_because: "kings", blacklist: "Vikings", }
+    { is_accepted_because: "kings", blacklist: "Vikings", },
+    { is_accepted_because: "kings", blacklist: "Rankings", }
 ]);
 
 function handleTweet(tweet, telegramBotUrl, telegramChatID, cb) {
