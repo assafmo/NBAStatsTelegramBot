@@ -163,6 +163,7 @@ const keywordsPromise = Promise.all([
 
 const blacklistPromise = Promise.resolve([
     { is_accepted_because: "Hawks", blacklist: "Black Hawks", },
+    { is_accepted_because: "Hawks", blacklist: "Seahawks", },
     { is_accepted_because: "kings", blacklist: "Vikings", },
     { is_accepted_because: "kings", blacklist: "Rankings", }
 ]);
