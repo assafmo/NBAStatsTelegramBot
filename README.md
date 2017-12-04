@@ -34,7 +34,7 @@ wt edit --profile node8 <NAME>
  - twitter_access_token_key = `GET_AT https://apps.twitter.com/app/XXXXXXXX/keys`
  - twitter_access_token_secret = `GET_AT https://apps.twitter.com/app/XXXXXXXX/keys`
 
-7. Add the modules `twitter` and `request` for you webtask. 
+7. Add the modules `twit` and `request` for you webtask. 
 
 8. On https://ifttt.com create an applet from https://ifttt.com/create/if-new-tweet-by-a-specific-user?sid=2 to https://ifttt.com/create/if-new-tweet-by-a-specific-user-then-make-a-web-request?sid=6.
     On the webhook url give your webtask url and append `?tweet_url={{LinkToTweet}}`
