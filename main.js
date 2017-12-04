@@ -298,7 +298,7 @@ if (inDebug) {
         telegram_chat_id: config.telegram.chat_id
     }
 
-    const tweetsToCheck = ['934972949324619776', '935871219303198722'];
+    const tweetsToCheck = ['937540795531513857'];
     for (let tweetID of tweetsToCheck) {
         module.exports(
             {
