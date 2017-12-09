@@ -150,6 +150,7 @@ const wordsKeywords = Promise.resolve([
     "J.R. Smith",
     "Kareem Abdul Jabbar",
     "Lew Alcindor",
+    "Manu Ginóbili",
     "King James"
 ]);
 const draftKeywords = Promise.resolve([/*TODO - get next draft*/]);
