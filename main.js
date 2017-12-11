@@ -1,4 +1,4 @@
-const request = require('request');
+const request = require('request-promise');
 const Twitter = require('twit');
 
 // Keywords
@@ -172,94 +172,107 @@ const blacklistPromise = Promise.resolve([
     { is_accepted_because: "kings", blacklist: "Rankings", }
 ]);
 
-function handleTweet(tweet, telegramBotUrl, telegramChatID, cb) {
+async function handleTweet(tweet, telegramBotUrl, telegramChatID, ocrSpaceApiKey, cb) {
     cb = cb || (() => { });
 
     if (typeof tweet.retweeted_status == 'object')
         tweet = tweet.retweeted_status;
 
+    let searchText = tweet.full_text;
 
-    tweet.text = tweet.full_text;
-
-    Promise.all([keywordsPromise, blacklistPromise])
-        .then(tweetKeywordsBlacklist => {
-            const [keywords, blacklist] = tweetKeywordsBlacklist;
-
-            const tweetText = tweet.text.replace(/\n/g, '').toLowerCase();
-            let isNbaRelated = false;
-            let foundKeywords = [];
-            for (let keyword of keywords) {
-                if (tweetText.includes(keyword.toLowerCase())) {
-                    foundKeywords.push(keyword);
-                }
-            }
-
-            foundKeywords = foundKeywords.filter(keyword => {
-                for (let entry of blacklist) {
-                    if (entry.is_accepted_because.toLowerCase() == keyword.toLowerCase() && tweetText.includes(entry.blacklist.toLowerCase())) {
-                        console.log(tweet.id_str, "blacklist found:", entry.blacklist);
-                        return false;
-                    }
-                }
-                return true;
+    // OCR
+    const photos = tweet.extended_entities &&
+        tweet.extended_entities.media &&
+        tweet.extended_entities.media.length &&
+        tweet.extended_entities.media.filter(m => m.type == 'photo');
+    if (photos && photos.length > 0) {
+        for (let photo of photos) {
+            const ocrResult = await request.get({
+                url: `https://api.ocr.space/parse/imageurl?apikey=${ocrSpaceApiKey}&url=${photo.media_url_https}`,
+                json: true
             });
-
-            if (foundKeywords.length > 0) {
-                isNbaRelated = true;
-            }
-
-            if (!isNbaRelated) {
-                return cb(null, { error: 'Not NBA related' });
-            }
-
-            console.log(tweet.id_str, "keywords:", foundKeywords.join(','));
-
-            const photos = tweet.extended_entities &&
-                tweet.extended_entities.media &&
-                tweet.extended_entities.media.length &&
-                tweet.extended_entities.media.filter(m => m.type == 'photo');
-
-            let finalText = tweet.text
-                .replace(/&amp;/g, `&`)
-                .replace(/&gt;/g, `>`)
-                .replace(/&lt;/g, `<`)
-                .replace(/&quot;/g, `"`)
-                .replace(/&apos;/g, `'`)
-                .replace(/&cent;/g, `¢`)
-                .replace(/&pound;/g, `£`)
-                .replace(/&yen;/g, `¥`)
-                .replace(/&euro;/g, `€`)
-                .replace(/&copy;/g, `©`)
-                .replace(/&reg;/g, `®`);
-
-            const telegramMessageUrl = `${telegramBotUrl}/sendMessage`;
-            if (photos && photos.length > 0) {
-                for (let photo of photos) {
-                    finalText = finalText.replace(photo.url, '');
-                    request.post({
-                        url: telegramMessageUrl,
-                        form: {
-                            chat_id: telegramChatID,
-                            parse_mode: 'HTML',
-                            text: `<a href="${photo.media_url_https || photo.display_url || photo.media_url}">&#8203;</a>${finalText}`
-                        }
-                    });
+            if (Array.isArray(ocrResult.ParsedResults)) {
+                for (let res of ocrResult.ParsedResults) {
+                    if (res.ParsedText) {
+                        searchText += ' ' + res.ParsedText;
+                    }
                 }
             }
-            else {
-                request.post({
-                    url: telegramMessageUrl,
-                    form: {
-                        chat_id: telegramChatID,
-                        text: finalText,
-                        disable_web_page_preview: true
-                    }
-                });
-            }
+        }
+    }
 
-            console.log(tweet.id_str, "text:", finalText);
-            cb(null, { id: tweet.id_str, text: finalText });
+    searchText = searchText.replace(/\n/g, '').toLowerCase();
+
+    const [keywords, blacklist] = await Promise.all([keywordsPromise, blacklistPromise]);
+
+    let isNbaRelated = false;
+    let foundKeywords = [];
+    for (let keyword of keywords) {
+        if (searchText.includes(keyword.toLowerCase())) {
+            foundKeywords.push(keyword);
+        }
+    }
+
+    foundKeywords = foundKeywords.filter(keyword => {
+        for (let entry of blacklist) {
+            if (entry.is_accepted_because.toLowerCase() == keyword.toLowerCase() && searchText.includes(entry.blacklist.toLowerCase())) {
+                console.log(tweet.id_str, "blacklist found:", entry.blacklist);
+                return false;
+            }
+        }
+        return true;
+    });
+
+    if (foundKeywords.length > 0) {
+        isNbaRelated = true;
+    }
+
+    if (!isNbaRelated) {
+        return cb(null, { error: 'Not NBA related' });
+    }
+
+    console.log(tweet.id_str, "keywords:", foundKeywords.join(','));
+
+    let finalText = tweet.full_text
+        .replace(/&amp;/g, `&`)
+        .replace(/&gt;/g, `>`)
+        .replace(/&lt;/g, `<`)
+        .replace(/&quot;/g, `"`)
+        .replace(/&apos;/g, `'`)
+        .replace(/&cent;/g, `¢`)
+        .replace(/&pound;/g, `£`)
+        .replace(/&yen;/g, `¥`)
+        .replace(/&euro;/g, `€`)
+        .replace(/&copy;/g, `©`)
+        .replace(/&reg;/g, `®`);
+
+    const telegramMessageUrl = `${telegramBotUrl}/sendMessage`;
+    if (photos && photos.length > 0) {
+        for (let photo of photos) {
+            finalText = finalText.replace(photo.url, '');
+            request.post({
+                url: telegramMessageUrl,
+                form: {
+                    chat_id: telegramChatID,
+                    parse_mode: 'HTML',
+                    text: `<a href="${photo.media_url_https || photo.display_url || photo.media_url}">&#8203;</a>${finalText}`
+                }
+            });
+        }
+    }
+    else {
+        request.post({
+            url: telegramMessageUrl,
+            form: {
+                chat_id: telegramChatID,
+                text: finalText,
+                disable_web_page_preview: true
+            }
         });
+    }
+
+    console.log(tweet.id_str, "text:", finalText);
+    cb(null, { id: tweet.id_str, text: finalText });
 }
 
 module.exports = (ctx, cb) => {
@@ -284,7 +297,7 @@ module.exports = (ctx, cb) => {
             return cb(null, { error: err });
         }
 
-        handleTweet(tweet, telegramBotUrl, telegramChatID, cb);
+        handleTweet(tweet, telegramBotUrl, telegramChatID, ctx.secrets.ocr_space_api_key, cb);
     });
 };
 
@@ -299,10 +312,11 @@ if (inDebug) {
         twitter_access_token_key: config.twitter.access_token_key,
         twitter_access_token_secret: config.twitter.access_token_secret,
         telegram_bot_key: config.telegram.bot_key,
-        telegram_chat_id: config.telegram.chat_id
+        telegram_chat_id: config.telegram.chat_id,
+        ocr_space_api_key: config.ocr_space_api_key
     }
 
-    const tweetsToCheck = ['937540795531513857'];
+    const tweetsToCheck = ['938434111198416896', '938252289587990528'];
     for (let tweetID of tweetsToCheck) {
         module.exports(
             {
