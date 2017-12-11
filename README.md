@@ -29,12 +29,13 @@ wt edit --profile node8 <NAME>
 6. Create secrets for your webtask.
  - telegram_chat_id = `<YOUR_TELEGRAM_CHAT_ID>` (get at @get_id_bot)
  - telegram_bot_key = `<YOUR_TELEGRAM_BOT_KEY>`
- - twitter_consumer_key = `GET_AT https://apps.twitter.com/app/XXXXXXXX/keys`
- - twitter_consumer_secret = `GET_AT https://apps.twitter.com/app/XXXXXXXX/keys`
- - twitter_access_token_key = `GET_AT https://apps.twitter.com/app/XXXXXXXX/keys`
- - twitter_access_token_secret = `GET_AT https://apps.twitter.com/app/XXXXXXXX/keys`
+ - twitter_consumer_key = `<get at https://apps.twitter.com/app/XXXXXXXX/keys>`
+ - twitter_consumer_secret = `<get at https://apps.twitter.com/app/XXXXXXXX/keys>`
+ - twitter_access_token_key = `<get at https://apps.twitter.com/app/XXXXXXXX/keys>`
+ - twitter_access_token_secret = `<get at https://apps.twitter.com/app/XXXXXXXX/keys>`
+ - ocr_space_api_key = `<get at https://ocr.space/ocrapi>`
 
-7. Add the modules `twit` and `request` for you webtask. 
+7. Add the modules `twit` and `request-promise` for you webtask. 
 
 8. On https://ifttt.com create an applet from https://ifttt.com/create/if-new-tweet-by-a-specific-user?sid=2 to https://ifttt.com/create/if-new-tweet-by-a-specific-user-then-make-a-web-request?sid=6.
     On the webhook url give your webtask url and append `?tweet_url={{LinkToTweet}}`
@@ -46,16 +47,17 @@ Create the file config.json along side main.js:
 
 {
     "telegram": {
-        "chat_id": "<YOUR_TELEGRAM_CHAT_ID>",
+        "chat_id": "<YOUR_TELEGRAM_CHAT_ID (get at @get_id_bot)>",
         "bot_key": "<YOUR_TELEGRAM_BOT_KEY>"
     },
     "twitter": {
-        "account_id_to_follow": "GET_AT http://idfromuser.com/",
-        "consumer_key": "GET_AT https://apps.twitter.com/app/XXXXXXXX/keys",
-        "consumer_secret": "GET_AT https://apps.twitter.com/app/XXXXXXXX/keys",
-        "access_token_key": "GET_AT https://apps.twitter.com/app/XXXXXXXX/keys",
-        "access_token_secret": "GET_AT https://apps.twitter.com/app/XXXXXXXX/keys"
-    }
+        "account_id_to_follow": "<get at http://idfromuser.com>",
+        "consumer_key": "<get at https://apps.twitter.com/app/XXXXXXXX/keys>",
+        "consumer_secret": "<get at https://apps.twitter.com/app/XXXXXXXX/keys>",
+        "access_token_key": "<get at https://apps.twitter.com/app/XXXXXXXX/keys>",
+        "access_token_secret": "<get at https://apps.twitter.com/app/XXXXXXXX/keys>"
+    },
+    "ocr_space_api_key": "<get at https://ocr.space/ocrapi>"
 }
 ```
 
