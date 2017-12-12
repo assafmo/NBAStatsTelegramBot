@@ -20,24 +20,24 @@ This Telegram bot is a https://webtask.io webtask, that when given a tweet ID (e
 ```bash
 # Create a NodeJS v8 profile so we can use the latest JS features
 wt init --profile node8 --url https://sandbox.auth0-extend.com --token $(wt profile get default --field token) --container $(wt profile get default --field container)
+# Create a secrets file for API keys
+cat > secrets.txt
+telegram_chat_id=<YOUR_TELEGRAM_CHAT_ID (get at @get_id_bot)>
+telegram_bot_key=<YOUR_TELEGRAM_BOT_KEY>
+twitter_consumer_key=<get at https://apps.twitter.com/app/XXXXXXXX/keys>
+twitter_consumer_secret=<get at https://apps.twitter.com/app/XXXXXXXX/keys>
+twitter_access_token_key=<get at https://apps.twitter.com/app/XXXXXXXX/keys>
+twitter_access_token_secret=<get at https://apps.twitter.com/app/XXXXXXXX/keys>
+ocr_space_api_key=<get at https://ocr.space/ocrapi>
+^C
 # Create a new webtask within the new profile 
-wt create --profile node8 --name <NAME> main.js
+wt create --profile node8 --name <NAME> --secrets-file secrets.txt main.js
 # Open browser to add secrets and modules in the GUI
 wt edit --profile node8 <NAME>
 ```
+(The modules `twit` and `request-promise` should be added automatically because of the `package.json` file.)
 
-6. Create secrets for your webtask.
- - telegram_chat_id = `<YOUR_TELEGRAM_CHAT_ID>` (get at @get_id_bot)
- - telegram_bot_key = `<YOUR_TELEGRAM_BOT_KEY>`
- - twitter_consumer_key = `<get at https://apps.twitter.com/app/XXXXXXXX/keys>`
- - twitter_consumer_secret = `<get at https://apps.twitter.com/app/XXXXXXXX/keys>`
- - twitter_access_token_key = `<get at https://apps.twitter.com/app/XXXXXXXX/keys>`
- - twitter_access_token_secret = `<get at https://apps.twitter.com/app/XXXXXXXX/keys>`
- - ocr_space_api_key = `<get at https://ocr.space/ocrapi>`
-
-7. Add the modules `twit` and `request-promise` for you webtask. 
-
-8. On https://ifttt.com create an applet from https://ifttt.com/create/if-new-tweet-by-a-specific-user?sid=2 to https://ifttt.com/create/if-new-tweet-by-a-specific-user-then-make-a-web-request?sid=6.
+7. On https://ifttt.com create an applet from https://ifttt.com/create/if-new-tweet-by-a-specific-user?sid=2 to https://ifttt.com/create/if-new-tweet-by-a-specific-user-then-make-a-web-request?sid=6.
     On the webhook url give your webtask url and append `?tweet_url={{LinkToTweet}}`
 
 # Debug
