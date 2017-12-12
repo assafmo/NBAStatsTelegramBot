@@ -151,7 +151,36 @@ const wordsKeywords = Promise.resolve([
     "Kareem Abdul Jabbar",
     "Lew Alcindor",
     "Manu Ginóbili",
-    "King James"
+    "King James",
+    // Doubles
+    "Double-double",
+    "Triple-double",
+    "Quadruple-double",
+    "Double Double",
+    "Triple Double",
+    "Quadruple Double",
+    // Triple double all time leaders
+    "Oscar Robertson",
+    "Magic Johnson",
+    "Jason Kidd",
+    "Russell Westbrook",
+    "Wilt Chamberlain",
+    "Larry Bird",
+    "LeBron James",
+    "Fat Lever",
+    "Bob Cousy",
+    "James Harden",
+    "John Havlicek",
+    "Grant Hill",
+    "Rajon Rondo",
+    "Michael Jordan",
+    "Elgin Baylor",
+    "Clyde Drexler",
+    "Walt Frazier",
+    "Kobe Bryant",
+    "Kareem Abdul-Jabbar",
+    "Micheal Ray Richardson",
+    "Chris Webber"
 ]);
 const draftKeywords = Promise.resolve([/*TODO - get next draft*/]);
 
@@ -265,8 +294,7 @@ async function handleTweet(tweet, telegramBotUrl, telegramChatID, ocrSpaceApiKey
             url: telegramMessageUrl,
             form: {
                 chat_id: telegramChatID,
-                text: finalText,
-                disable_web_page_preview: true
+                text: finalText
             }
         });
     }
@@ -316,7 +344,7 @@ if (inDebug) {
         ocr_space_api_key: config.ocr_space_api_key
     }
 
-    const tweetsToCheck = ['938434111198416896', '938252289587990528'];
+    const tweetsToCheck = ['940429812753199104'];
     for (let tweetID of tweetsToCheck) {
         module.exports(
             {
