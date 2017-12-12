@@ -186,7 +186,7 @@ const wordsKeywords = Promise.resolve([
     "David Robinson",
     "Alvin Robertson",
     "Hakeem Olajuwon",
-    // Winniest coaches of all time (http://www.nba.com/history/records/victories_coaches.html)
+    // Winningest coaches of all time (http://www.nba.com/history/records/victories_coaches.html)
     "Bill Fitch",
     "Billy Cunningham",
     "Dick Motta",
