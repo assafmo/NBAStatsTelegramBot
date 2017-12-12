@@ -1,7 +1,7 @@
 # This bot lives in [@nbaespnstats](https://t.me/nbaespnstats)
 This Telegram bot is a https://webtask.io webtask, that when given a tweet ID (e.g. via webhook) checkes whether the tweet matches certain keywords and sends it to a specific Telegram chat.
 
-# Usage
+## Usage
 1. [Create a twitter app](https://apps.twitter.com)
 
 2. [Create a telegram bot](https://core.telegram.org/bots#3-how-do-i-create-a-bot)
@@ -39,10 +39,10 @@ wt create --profile node8 --name <NAME> --secrets-file secrets.txt main.js
 7. On https://ifttt.com create an applet from https://ifttt.com/create/if-new-tweet-by-a-specific-user?sid=2 to https://ifttt.com/create/if-new-tweet-by-a-specific-user-then-make-a-web-request?sid=6.
     On the webhook url give your webtask url and append `?tweet_url={{LinkToTweet}}`
 
-# Update the code
+## Update the code
 `wt update --profile node8 <NAME> main.js`
 
-# Debug
+## Debug
 1. Use `config_debug.json` along side `main.js`
 ```json
 Create the file config.json along side main.js:
