@@ -159,7 +159,7 @@ const wordsKeywords = Promise.resolve([
     "Double Double",
     "Triple Double",
     "Quadruple Double",
-    // Triple double all time leaders
+    // Triple doubles all time leaders
     "Oscar Robertson",
     "Magic Johnson",
     "Jason Kidd",
@@ -180,7 +180,30 @@ const wordsKeywords = Promise.resolve([
     "Kobe Bryant",
     "Kareem Abdul-Jabbar",
     "Micheal Ray Richardson",
-    "Chris Webber"
+    "Chris Webber",
+    // Quadruple Doubles all time leaders (https://www.basketball-reference.com/leaders/quadruple-double-most-times.html)
+    "Nate Thurmond",
+    "David Robinson",
+    "Alvin Robertson",
+    "Hakeem Olajuwon",
+    // Winniest coaches of all time (http://www.nba.com/history/records/victories_coaches.html)
+    "Bill Fitch",
+    "Billy Cunningham",
+    "Dick Motta",
+    "Don Nelson",
+    "Gene Shue",
+    "George Karl",
+    "Gregg Popovich",
+    "Jack Ramsay",
+    "Jerry Sloan",
+    "K.C. Jones",
+    "Larry Brown",
+    "Lenny Wilkens",
+    "Pat Riley",
+    "Phil Jackson",
+    "Red Auerbach",
+    "Rick Adelman",
+    "Tom Heinsohn",
 ]);
 const draftKeywords = Promise.resolve([/*TODO - get next draft*/]);
 
