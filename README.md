@@ -37,7 +37,7 @@ wt edit --profile node8 <NAME>
 ```
 (The modules `twit` and `request-promise` should be added automatically because of the `package.json` file.)
 
-7. On https://ifttt.com create an applet from https://ifttt.com/create/if-new-tweet-by-a-specific-user?sid=2 to https://ifttt.com/create/if-new-tweet-by-a-specific-user-then-make-a-web-request?sid=6.
+6. On https://ifttt.com create an applet from https://ifttt.com/create/if-new-tweet-by-a-specific-user?sid=2 to https://ifttt.com/create/if-new-tweet-by-a-specific-user-then-make-a-web-request?sid=6.
     On the webhook url give your webtask url and append `?tweet_url={{LinkToTweet}}`
 
 # Debug
