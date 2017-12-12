@@ -1,9 +1,10 @@
-const request = require('request-promise');
+const requestp = require('request-promise');
+const request = require('request');
 const Twitter = require('twit');
 
 // Keywords
 const playersKeywords = new Promise((resolve, reject) => {
-    require('request').get({ url: 'http://www.nba.com/players/active_players.json', json: true }, (err, resp, json) => {
+    request.get({ url: 'http://www.nba.com/players/active_players.json', json: true }, (err, resp, json) => {
         resolve(json.map(x => [x.firstName, x.lastName].filter(x => x).join(' ')));
     });
 });
@@ -214,14 +215,14 @@ const keywordsPromise = Promise.all([
     teamsKeywords,
     draftKeywords,
     wordsKeywords
-]).then(keywordsArrays => keywordsArrays.reduce((x, y) => x.concat(y), []));
+]).then(keywordsArrays => keywordsArrays.reduce((x, y) => Array.from(new Set(x.concat(y))), []));
 
 const blacklistPromise = Promise.resolve([
     { is_accepted_because: "Hawks", blacklist: "Black Hawks", },
     { is_accepted_because: "Hawks", blacklist: "Blackhawks", },
     { is_accepted_because: "Hawks", blacklist: "Seahawks", },
-    { is_accepted_because: "kings", blacklist: "Vikings", },
-    { is_accepted_because: "kings", blacklist: "Rankings", }
+    { is_accepted_because: "Kings", blacklist: "Vikings", },
+    { is_accepted_because: "Kings", blacklist: "Rankings", }
 ]);
 
 async function handleTweet(tweet, telegramBotUrl, telegramChatID, ocrSpaceApiKey, cb) {
@@ -239,7 +240,7 @@ async function handleTweet(tweet, telegramBotUrl, telegramChatID, ocrSpaceApiKey
         tweet.extended_entities.media.filter(m => m.type == 'photo');
     if (photos && photos.length > 0) {
         for (let photo of photos) {
-            const ocrResult = await request.get({
+            const ocrResult = await requestp.get({
                 url: `https://api.ocr.space/parse/imageurl?apikey=${ocrSpaceApiKey}&url=${photo.media_url_https}`,
                 json: true
             });
@@ -285,18 +286,7 @@ async function handleTweet(tweet, telegramBotUrl, telegramChatID, ocrSpaceApiKey
 
     console.log(tweet.id_str, "keywords:", foundKeywords.join(','));
 
-    let finalText = tweet.full_text
-        .replace(/&amp;/g, `&`)
-        .replace(/&gt;/g, `>`)
-        .replace(/&lt;/g, `<`)
-        .replace(/&quot;/g, `"`)
-        .replace(/&apos;/g, `'`)
-        .replace(/&cent;/g, `¢`)
-        .replace(/&pound;/g, `£`)
-        .replace(/&yen;/g, `¥`)
-        .replace(/&euro;/g, `€`)
-        .replace(/&copy;/g, `©`)
-        .replace(/&reg;/g, `®`);
+    let finalText = tweet.full_text;
 
     const telegramMessageUrl = `${telegramBotUrl}/sendMessage`;
     if (photos && photos.length > 0) {
@@ -313,6 +303,19 @@ async function handleTweet(tweet, telegramBotUrl, telegramChatID, ocrSpaceApiKey
         }
     }
     else {
+        finalText = finalText
+            .replace(/&amp;/g, `&`)
+            .replace(/&gt;/g, `>`)
+            .replace(/&lt;/g, `<`)
+            .replace(/&quot;/g, `"`)
+            .replace(/&apos;/g, `'`)
+            .replace(/&cent;/g, `¢`)
+            .replace(/&pound;/g, `£`)
+            .replace(/&yen;/g, `¥`)
+            .replace(/&euro;/g, `€`)
+            .replace(/&copy;/g, `©`)
+            .replace(/&reg;/g, `®`);
+
         request.post({
             url: telegramMessageUrl,
             form: {
