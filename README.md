@@ -34,7 +34,7 @@ wt init --profile node8 --url https://sandbox.auth0-extend.com --token $(wt prof
 # Create a new webtask within the new profile 
 wt create --profile node8 --name <NAME> --secrets-file secrets.txt main.js
 ```
-(The modules `twit` and `request-promise` should be added automatically because of the `package.json` file.)
+(npm modules will be added automatically because of the `package.json` file.)
 
 7. On https://ifttt.com create an applet from https://ifttt.com/create/if-new-tweet-by-a-specific-user?sid=2 to https://ifttt.com/create/if-new-tweet-by-a-specific-user-then-make-a-web-request?sid=6.
     On the webhook url give your webtask url and append `?tweet_url={{LinkToTweet}}`
