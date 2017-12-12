@@ -33,13 +33,14 @@ ocr_space_api_key=<get at https://ocr.space/ocrapi>
 wt init --profile node8 --url https://sandbox.auth0-extend.com --token $(wt profile get default --field token) --container $(wt profile get default --field container)
 # Create a new webtask within the new profile 
 wt create --profile node8 --name <NAME> --secrets-file secrets.txt main.js
-# Open browser to add secrets and modules in the GUI
-wt edit --profile node8 <NAME>
 ```
 (The modules `twit` and `request-promise` should be added automatically because of the `package.json` file.)
 
 7. On https://ifttt.com create an applet from https://ifttt.com/create/if-new-tweet-by-a-specific-user?sid=2 to https://ifttt.com/create/if-new-tweet-by-a-specific-user-then-make-a-web-request?sid=6.
     On the webhook url give your webtask url and append `?tweet_url={{LinkToTweet}}`
+
+# Update the code
+`wt update --profile node8 <NAME> main.js`
 
 # Debug
 1. Use `config_debug.json` along side `main.js`
