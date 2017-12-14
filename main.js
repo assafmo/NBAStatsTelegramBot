@@ -150,16 +150,19 @@ const wordsKeywords = Promise.resolve([
     "Steph Curry",
     "LeBron",
     "J.R. Smith",
+    "J.R Smith",
+    "JR Smith",
     "Kareem Abdul Jabbar",
     "Lew Alcindor",
     "Manu Ginóbili",
     "King James",
+    "Shaq",
     // Doubles
     "Double-double",
-    "Triple-double",
-    "Quadruple-double",
     "Double Double",
+    "Triple-double",
     "Triple Double",
+    "Quadruple-double",
     "Quadruple Double",
     // Triple doubles all time leaders
     "Oscar Robertson",
@@ -199,6 +202,8 @@ const wordsKeywords = Promise.resolve([
     "Jack Ramsay",
     "Jerry Sloan",
     "K.C. Jones",
+    "K.C Jones",
+    "KC Jones",
     "Larry Brown",
     "Lenny Wilkens",
     "Pat Riley",
@@ -271,7 +276,7 @@ async function handleTweet(tweet, telegramBotUrl, telegramChatID, ocrSpaceApiKey
     foundKeywords = foundKeywords.filter(keyword => {
         for (let entry of blacklist) {
             if (entry.is_accepted_because.toLowerCase() == keyword.toLowerCase() && searchText.includes(entry.blacklist.toLowerCase())) {
-                console.log(tweet.id_str, "blacklist found:", entry.blacklist);
+                console.log(tweet.id_str, 'blacklist found:', entry.blacklist);
                 return false;
             }
         }
@@ -283,10 +288,11 @@ async function handleTweet(tweet, telegramBotUrl, telegramChatID, ocrSpaceApiKey
     }
 
     if (!isNbaRelated) {
+        console.log(tweet.id_str, 'Not NBA related');
         return cb(null, { error: 'Not NBA related' });
     }
 
-    console.log(tweet.id_str, "keywords:", foundKeywords.join(','));
+    console.log(tweet.id_str, 'keywords:', foundKeywords.join(','));
 
     let finalText = tweet.full_text;
 
@@ -327,7 +333,7 @@ async function handleTweet(tweet, telegramBotUrl, telegramChatID, ocrSpaceApiKey
         });
     }
 
-    console.log(tweet.id_str, "text:", finalText);
+    console.log(tweet.id_str, 'text:', finalText);
     cb(null, { id: tweet.id_str, text: finalText });
 }
 
@@ -348,7 +354,7 @@ module.exports = (ctx, cb) => {
         access_token_secret: ctx.secrets.twitter_access_token_secret
     });
 
-    twitterClient.get(`statuses/show/:id`, { id: tweetID, tweet_mode: 'extended' }, (err, tweet) => {
+    twitterClient.get('statuses/show/:id', { id: tweetID, tweet_mode: 'extended' }, (err, tweet) => {
         if (err) {
             return cb(null, { error: err });
         }
@@ -360,7 +366,7 @@ module.exports = (ctx, cb) => {
 
 const inDebug = process && Array.isArray(process.argv) && process.argv[2] === 'debug';
 if (inDebug) {
-    const config = require(require('path').join(__dirname, `config_debug.json`));
+    const config = require(require('path').join(__dirname, 'config_debug.json'));
 
     const webtaskSecrets = {
         twitter_consumer_key: config.twitter.consumer_key,
