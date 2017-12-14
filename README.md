@@ -1,12 +1,14 @@
 A Telegram bot that send NBA related tweets from ESPN Stats & Info, hosted as a https://webtask.io webtask.  
-When given a tweet ID (e.g. via webhook) checkes whether the tweet matches certain keywords and sends it to a specific Telegram chat.
+When given a tweet ID (e.g. with a webhook) checkes whether the tweet or the photos matches certain keywords and sends it to a specific Telegram chat.
+
+## Links
 
 |  |  |
-| -- | -- |
+|:--:|:--:|
 | [![@Telegram](https://cdn.rawgit.com/aleen42/badges/master/src/telegram.svg)](https://t.me/nba_stats) | [@nba_stats](https://t.me/nba_stats)   
 | [![reddit](https://cdn.rawgit.com/aleen42/badges/master/src/reddit.svg)](https://www.reddit.com/r/NBAStatsTelegram) | [/r/NBAStatsTelegram](https://www.reddit.com/r/NBAStatsTelegram)
 
-## Usage
+## Using the code
 1. [Create a twitter app](https://apps.twitter.com)
 
 2. [Create a telegram bot](https://core.telegram.org/bots#3-how-do-i-create-a-bot)
