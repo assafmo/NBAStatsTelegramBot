@@ -3,9 +3,9 @@ When given a tweet ID (e.g. with a webhook) checkes whether the tweet or the pho
 
 ## Links
 
-| [![@Telegram](https://cdn.rawgit.com/aleen42/badges/master/src/telegram.svg)](https://t.me/nba_stats) | [@nba_stats](https://t.me/nba_stats)   
+| [![@Telegram](https://cdn.rawgit.com/aleen42/badges/master/src/telegram.svg)](https://t.me/nba_stats) | **[@nba_stats](https://t.me/nba_stats)** |
 |:--:|:--:|
-| [![reddit](https://cdn.rawgit.com/aleen42/badges/master/src/reddit.svg)](https://www.reddit.com/r/NBAStatsTelegram) | [/r/NBAStatsTelegram](https://www.reddit.com/r/NBAStatsTelegram)
+| [![reddit](https://cdn.rawgit.com/aleen42/badges/master/src/reddit.svg)](https://www.reddit.com/r/NBAStatsTelegram) | **[/r/NBAStatsTelegram](https://www.reddit.com/r/NBAStatsTelegram)** |
 
 ## Using the code
 1. [Create a twitter app](https://apps.twitter.com)
