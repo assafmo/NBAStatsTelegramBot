@@ -144,8 +144,9 @@ const teamsKeywords = Promise.resolve([
     "Kings"
 ]);
 const wordsKeywords = Promise.resolve([
-    " NBA",
-    "#NBA",
+    "NBA",
+    "Eastern Conference",
+    "Western Conference",
     "Steph Curry",
     "LeBron",
     "J.R. Smith",
