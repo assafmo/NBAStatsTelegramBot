@@ -1,4 +1,4 @@
-# This bot lives in [@nbastatsinfo](https://t.me/nbastatsinfo)
+# This bot lives in [@nbastats](https://t.me/nbastats)
 This Telegram bot is a https://webtask.io webtask, that when given a tweet ID (e.g. via webhook) checkes whether the tweet matches certain keywords and sends it to a specific Telegram chat.
 
 ## Usage
