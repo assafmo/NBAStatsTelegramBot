@@ -223,7 +223,8 @@ const blacklistPromise = Promise.resolve([
     { is_accepted_because: "Hawks", blacklist: "Blackhawks", },
     { is_accepted_because: "Hawks", blacklist: "Seahawks", },
     { is_accepted_because: "Kings", blacklist: "Vikings", },
-    { is_accepted_because: "Kings", blacklist: "Rankings", }
+    { is_accepted_because: "Kings", blacklist: "Rankings", },
+    { is_accepted_because: "NBA", blacklist: "WNBA", }
 ]);
 
 async function handleTweet(tweet, telegramBotUrl, telegramChatID, ocrSpaceApiKey, cb) {
@@ -371,7 +372,7 @@ if (inDebug) {
         ocr_space_api_key: config.ocr_space_api_key
     }
 
-    const tweetsToCheck = ['940429812753199104'];
+    const tweetsToCheck = ['914644850833809408'];
     for (let tweetID of tweetsToCheck) {
         module.exports(
             {
