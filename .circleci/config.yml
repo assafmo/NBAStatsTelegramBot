@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  test:
+  build:
     docker:
       # specify the version you desire here
       - image: circleci/node:8.9.3 # webtask's nodejs version (at least that)
