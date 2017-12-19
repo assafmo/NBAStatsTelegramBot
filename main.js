@@ -250,7 +250,9 @@ async function handleTweet(
 ) {
   cb = cb || (() => {});
 
-  if (typeof tweet.retweeted_status == "object") tweet = tweet.retweeted_status;
+  if (typeof tweet.retweeted_status == "object") {
+    tweet = tweet.retweeted_status;
+  }
 
   let searchText = tweet.full_text;
 
@@ -276,6 +278,11 @@ async function handleTweet(
         }
       }
     }
+  }
+
+  // Quoted tweet
+  if (tweet.quoted_status && tweet.quoted_status.full_text) {
+    searchText += " " + tweet.quoted_status.full_text;
   }
 
   searchText = searchText.replace(/\n/g, "").toLowerCase();
@@ -414,7 +421,7 @@ if (inDebug) {
     ocr_space_api_key: config.ocr_space_api_key
   };
 
-  const tweetsToCheck = ["914644850833809408"];
+  const tweetsToCheck = ["942953958263402496"];
   for (let tweetID of tweetsToCheck) {
     module.exports(
       {
