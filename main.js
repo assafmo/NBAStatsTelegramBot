@@ -241,48 +241,52 @@ const blacklistPromise = Promise.resolve([
   { is_accepted_because: "NBA", blacklist: "WNBA" }
 ]);
 
-async function handleTweet(
-  tweet,
-  telegramBotUrl,
-  telegramChatID,
-  ocrSpaceApiKey,
-  cb
-) {
-  cb = cb || (() => {});
+function getPhotos(tweet) {
+  if (tweet.extended_entities && Array.isArray(tweet.extended_entities.media)) {
+    return tweet.extended_entities.media.filter(m => m.type == "photo");
+  } else {
+    return [];
+  }
+}
 
-  if (typeof tweet.retweeted_status == "object") {
+async function isNBARelated(tweet, ocrSpaceApiKey) {
+  if (tweet.truncated) {
+    // https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/tweet-object
     tweet = tweet.retweeted_status;
   }
 
   let searchText = tweet.full_text;
+  let photos = getPhotos(tweet);
+
+  // Quoted tweet
+  if (tweet.quoted_status) {
+    let quotedTweet = tweet.quoted_status;
+    if (quotedTweet.truncated) {
+      // https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/tweet-object
+      quotedTweet = quotedTweet.retweeted_status;
+    }
+
+    if (quotedTweet.full_text) {
+      searchText += " " + quotedTweet.full_text;
+    }
+    photos = photos.concat(getPhotos(quotedTweet));
+  }
 
   // OCR
-  const photos =
-    tweet.extended_entities &&
-    tweet.extended_entities.media &&
-    tweet.extended_entities.media.length &&
-    tweet.extended_entities.media.filter(m => m.type == "photo");
-  if (photos && photos.length > 0) {
-    for (let photo of photos) {
-      const ocrResult = await requestp.get({
-        url: `https://api.ocr.space/parse/imageurl?apikey=${ocrSpaceApiKey}&url=${
-          photo.media_url_https
-        }`,
-        json: true
-      });
-      if (Array.isArray(ocrResult.ParsedResults)) {
-        for (let res of ocrResult.ParsedResults) {
-          if (res.ParsedText) {
-            searchText += " " + res.ParsedText;
-          }
+  for (let photo of photos) {
+    const ocrResult = await requestp.get({
+      url: `https://api.ocr.space/parse/imageurl?apikey=${ocrSpaceApiKey}&url=${
+        photo.media_url_https
+      }`,
+      json: true
+    });
+    if (Array.isArray(ocrResult.ParsedResults)) {
+      for (let res of ocrResult.ParsedResults) {
+        if (res.ParsedText) {
+          searchText += " " + res.ParsedText;
         }
       }
     }
-  }
-
-  // Quoted tweet
-  if (tweet.quoted_status && tweet.quoted_status.full_text) {
-    searchText += " " + tweet.quoted_status.full_text;
   }
 
   searchText = searchText.replace(/\n/g, "").toLowerCase();
@@ -292,7 +296,6 @@ async function handleTweet(
     blacklistPromise
   ]);
 
-  let isNbaRelated = false;
   let foundKeywords = [];
   for (let keyword of keywords) {
     if (searchText.includes(keyword.toLowerCase())) {
@@ -300,24 +303,42 @@ async function handleTweet(
     }
   }
 
+  const foundBlacklist = [];
   foundKeywords = foundKeywords.filter(keyword => {
     for (let entry of blacklist) {
       if (
         entry.is_accepted_because.toLowerCase() == keyword.toLowerCase() &&
         searchText.includes(entry.blacklist.toLowerCase())
       ) {
-        console.log(tweet.id_str, "blacklist found:", entry.blacklist);
+        foundBlacklist.push(entry.blacklist);
         return false;
       }
     }
     return true;
   });
 
-  if (foundKeywords.length > 0) {
-    isNbaRelated = true;
+  return [foundKeywords.length > 0, foundKeywords, foundBlacklist];
+}
+
+async function handleTweet(
+  tweet,
+  telegramBotUrl,
+  telegramChatID,
+  ocrSpaceApiKey,
+  cb
+) {
+  cb = cb || (() => {});
+
+  const [nbaRelated, foundKeywords, foundBlacklist] = await isNBARelated(
+    tweet,
+    ocrSpaceApiKey
+  );
+
+  if (foundBlacklist.length > 0) {
+    console.log(tweet.id_str, "blacklist:", foundBlacklist.join(","));
   }
 
-  if (!isNbaRelated) {
+  if (!nbaRelated) {
     console.log(tweet.id_str, "Not NBA related");
     return cb(null, { error: "Not NBA related" });
   }
@@ -327,6 +348,7 @@ async function handleTweet(
   let finalText = tweet.full_text;
 
   const telegramMessageUrl = `${telegramBotUrl}/sendMessage`;
+  const photos = getPhotos(tweet);
   if (photos && photos.length > 0) {
     for (let photo of photos) {
       finalText = finalText.replace(photo.url, "");
@@ -421,7 +443,12 @@ if (inDebug) {
     ocr_space_api_key: config.ocr_space_api_key
   };
 
-  const tweetsToCheck = ["942953958263402496"];
+  const tweetsToCheck = [
+    "942967289875443712",
+    "942947504986972160",
+    "942915469257986049",
+    "942409148938911745"
+  ];
   for (let tweetID of tweetsToCheck) {
     module.exports(
       {
