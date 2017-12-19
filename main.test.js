@@ -8,7 +8,7 @@ const tests = {
   "942967289875443712": true,
   "942947504986972160": true,
   "942915469257986049": true,
-  "942409148938911745": false
+  "942409148938911745": true
 };
 
 const ocrSpaceApiKey = config.ocr_space_api_key;
@@ -20,25 +20,20 @@ const twitterClient = new Twitter({
 });
 
 for (let tweetID of Object.keys(tests)) {
-  test(`https://twitter.com/ESPNStatsInfo/status/${tweetID}`, () => {
-    twitterClient.get(
-      "statuses/show/:id",
-      {
-        id: tweetID,
-        tweet_mode: "extended"
-      },
-      async (err, tweet) => {
-        if (err) {
-          throw err;
-        }
+  test(`https://twitter.com/ESPNStatsInfo/status/${tweetID}`, async () => {
+    expect.assertions(1);
 
-        const [nbaRelated, foundKeywords, foundBlacklist] = await isNBARelated(
-          tweet,
-          ocrSpaceApiKey
-        );
+    const result = await twitterClient.get("statuses/show/:id", {
+      id: tweetID,
+      tweet_mode: "extended"
+    });
+    const tweet = result.data;
 
-        expect(nbaRelated).toBe(tests[tweetID]);
-      }
+    const [nbaRelated, foundKeywords, foundBlacklist] = await isNBARelated(
+      tweet,
+      ocrSpaceApiKey
     );
+
+    expect(nbaRelated).toBe(tests[tweetID]);
   });
 }
