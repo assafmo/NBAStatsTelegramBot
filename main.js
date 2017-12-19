@@ -250,21 +250,12 @@ function getPhotos(tweet) {
 }
 
 async function isNBARelated(tweet, ocrSpaceApiKey) {
-  if (tweet.truncated) {
-    // https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/tweet-object
-    tweet = tweet.retweeted_status;
-  }
-
   let searchText = tweet.full_text;
   let photos = getPhotos(tweet);
 
   // Quoted tweet
   if (tweet.quoted_status) {
-    let quotedTweet = tweet.quoted_status;
-    if (quotedTweet.truncated) {
-      // https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/tweet-object
-      quotedTweet = quotedTweet.retweeted_status;
-    }
+    const quotedTweet = tweet.quoted_status;
 
     if (quotedTweet.full_text) {
       searchText += " " + quotedTweet.full_text;
@@ -390,7 +381,7 @@ async function handleTweet(
   cb(null, { id: tweet.id_str, text: finalText });
 }
 
-function webtask(ctx, cb) {
+async function webtask(ctx, cb) {
   if (!ctx.query.tweet_url) {
     return cb(null, { error: "no querystring param tweet_url" });
   }
@@ -409,23 +400,25 @@ function webtask(ctx, cb) {
     access_token_secret: ctx.secrets.twitter_access_token_secret
   });
 
-  twitterClient.get(
-    "statuses/show/:id",
-    { id: tweetID, tweet_mode: "extended" },
-    (err, tweet) => {
-      if (err) {
-        return cb(null, { error: err });
-      }
+  try {
+    const result = await twitterClient.get("statuses/show/:id", {
+      id: tweetID,
+      tweet_mode: "extended"
+    });
 
-      handleTweet(
-        tweet,
-        telegramBotUrl,
-        telegramChatID,
-        ctx.secrets.ocr_space_api_key,
-        cb
-      );
+    const tweet = result.data;
+    handleTweet(
+      tweet,
+      telegramBotUrl,
+      telegramChatID,
+      ctx.secrets.ocr_space_api_key,
+      cb
+    );
+  } catch (err) {
+    if (err) {
+      return cb(null, { error: err });
     }
-  );
+  }
 }
 
 module.exports = webtask;
