@@ -24,7 +24,9 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-        
+      
+      # set config_test.json
+      - run: echo "$CONFIG_TEST" > config_test.json
       # run tests!
       - run: npm test
 
