@@ -1,6 +1,15 @@
 {
   "name": "nba-stats-telegram-bot",
   "version": "1.0.0",
+  "author": "assafmo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/assafmo/NBAStatsTelegramBot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/assafmo/NBAStatsTelegramBot/issues"
+  },
   "dependencies": {
     "request": "2.83.0",
     "request-promise": "4.2.2",
