@@ -5,5 +5,11 @@
     "request": "2.83.0",
     "request-promise": "4.2.2",
     "twit": "2.2.9"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "22.0.3"
   }
 }

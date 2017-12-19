@@ -390,7 +390,7 @@ async function handleTweet(
   cb(null, { id: tweet.id_str, text: finalText });
 }
 
-module.exports = (ctx, cb) => {
+function webtask(ctx, cb) {
   if (!ctx.query.tweet_url) {
     return cb(null, { error: "no querystring param tweet_url" });
   }
@@ -426,12 +426,15 @@ module.exports = (ctx, cb) => {
       );
     }
   );
-};
+}
+
+module.exports = webtask;
+module.exports.isNBARelated = isNBARelated;
 
 const inDebug =
   process && Array.isArray(process.argv) && process.argv[2] === "debug";
 if (inDebug) {
-  const config = require(require("path").join(__dirname, "config_debug.json"));
+  const config = require(require("path").join(__dirname, "config_test.json"));
 
   const webtaskSecrets = {
     twitter_consumer_key: config.twitter.consumer_key,

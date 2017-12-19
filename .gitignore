@@ -1,4 +1,4 @@
 config.json
-config_debug.json
+config_test.json
 .vscode
 node_modules
