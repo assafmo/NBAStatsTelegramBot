@@ -55,27 +55,31 @@ wt create --profile node8 --name <NAME> --secrets-file secrets.txt main.js
 
 `wt update --profile node8 <NAME> main.js`
 
-## Debug
+## Test & Debug
 
-1. Use `config_test.json` along side `main.js`
+Create the file `config_test.json` along side `main.js`
 
 ```json
-Create the file config.json along side main.js:
-
 {
-    "telegram": {
-        "chat_id": "<YOUR_TELEGRAM_CHAT_ID (get at @get_id_bot)>",
-        "bot_key": "<YOUR_TELEGRAM_BOT_KEY>"
-    },
-    "twitter": {
-        "account_id_to_follow": "<get at http://idfromuser.com>",
-        "consumer_key": "<get at https://apps.twitter.com/app/XXXXXXXX/keys>",
-        "consumer_secret": "<get at https://apps.twitter.com/app/XXXXXXXX/keys>",
-        "access_token_key": "<get at https://apps.twitter.com/app/XXXXXXXX/keys>",
-        "access_token_secret": "<get at https://apps.twitter.com/app/XXXXXXXX/keys>"
-    },
-    "ocr_space_api_key": "<get at https://ocr.space/ocrapi>"
+  "telegram": {
+    "chat_id": "<YOUR_TELEGRAM_CHAT_ID (get at @get_id_bot)>",
+    "bot_key": "<YOUR_TELEGRAM_BOT_KEY>"
+  },
+  "twitter": {
+    "account_id_to_follow": "<get at http://idfromuser.com>",
+    "consumer_key": "<get at https://apps.twitter.com/app/XXXXXXXX/keys>",
+    "consumer_secret": "<get at https://apps.twitter.com/app/XXXXXXXX/keys>",
+    "access_token_key": "<get at https://apps.twitter.com/app/XXXXXXXX/keys>",
+    "access_token_secret": "<get at https://apps.twitter.com/app/XXXXXXXX/keys>"
+  },
+  "ocr_space_api_key": "<get at https://ocr.space/ocrapi>"
 }
 ```
 
-2. Execute `node main.js debug`
+### Test
+
+`npm test`
+
+### Debug
+
+`node main.js debug`
