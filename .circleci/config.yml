@@ -8,15 +8,15 @@ jobs:
       - restore_cache:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: 
-        name: Install dependencies
-        command: npm install
+          name: Install dependencies
+          command: npm install
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: 
-        name: Set config_test.json with API keys
-        command: echo "$CONFIG_TEST" > config_test.json
+          name: Set config_test.json with API keys
+          command: echo "$CONFIG_TEST" > config_test.json
       - run:
-        name: Run tests
-        command: npm test
+          name: Run tests
+          command: npm test
