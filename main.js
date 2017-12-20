@@ -238,7 +238,15 @@ const blacklistPromise = Promise.resolve([
   { is_accepted_because: "Hawks", blacklist: "Seahawks" },
   { is_accepted_because: "Kings", blacklist: "Vikings" },
   { is_accepted_because: "Kings", blacklist: "Rankings" },
-  { is_accepted_because: "NBA", blacklist: "WNBA" }
+  { is_accepted_because: "NBA", blacklist: "WNBA" },
+  { is_accepted_because: "double-double", blacklist: "NCAA" },
+  { is_accepted_because: "double double", blacklist: "NCAA" },
+  { is_accepted_because: "triple-double", blacklist: "NCAA" },
+  { is_accepted_because: "triple double", blacklist: "NCAA" },
+  { is_accepted_because: "double-double", blacklist: "Division I" },
+  { is_accepted_because: "double double", blacklist: "Division I" },
+  { is_accepted_because: "triple-double", blacklist: "Division I" },
+  { is_accepted_because: "triple double", blacklist: "Division I" }
 ]);
 
 function getPhotos(tweet) {

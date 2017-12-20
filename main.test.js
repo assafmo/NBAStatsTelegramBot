@@ -26,7 +26,9 @@ const tests = {
   "937078943907221505": true,
   "938252350585745408": true,
   "940434956907577349": true,
-  "941101813113204736": true
+  "941101813113204736": true,
+  "937083443695046657": false,
+  "939674215619399680": false
 };
 
 const ocrSpaceApiKey = config.ocr_space_api_key;
