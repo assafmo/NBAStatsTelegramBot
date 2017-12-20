@@ -38,7 +38,9 @@ const twitterClient = new Twitter({
 });
 
 for (let tweetID of Object.keys(tests)) {
-  test(`https://twitter.com/ESPNStatsInfo/status/${tweetID}`, async () => {
+  test(`https://twitter.com/ESPNStatsInfo/status/${tweetID} should be "${
+    tests[tweetID]
+  }"`, async () => {
     expect.assertions(1);
 
     const result = await twitterClient.get("statuses/show/:id", {
