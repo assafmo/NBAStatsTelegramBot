@@ -3,13 +3,13 @@ When given a tweet ID (e.g. with a webhook) checkes whether the tweet or the pho
 
 [![CircleCI](https://circleci.com/gh/assafmo/NBAStatsTelegramBot.svg?style=shield&circle-token=5a80e4447cbbdbd5d740a1679fee6a7799f22da7)](https://circleci.com/gh/assafmo/NBAStatsTelegramBot)
 
-## Links
+# Links
 
 |        [![@Telegram](https://cdn.rawgit.com/aleen42/badges/master/src/telegram.svg)](https://t.me/nba_stats)        |               **[@nba_stats](https://t.me/nba_stats)**               |
 | :-----------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------: |
 | [![reddit](https://cdn.rawgit.com/aleen42/badges/master/src/reddit.svg)](https://www.reddit.com/r/NBAStatsTelegram) | **[/r/NBAStatsTelegram](https://www.reddit.com/r/NBAStatsTelegram)** |
 
-## Using the code
+# Usage
 
 1. [Create a twitter app](https://apps.twitter.com)
 
@@ -51,11 +51,11 @@ wt create --profile node8 --name <NAME> --secrets-file secrets.txt main.js
 7. On https://ifttt.com create an applet from https://ifttt.com/create/if-new-tweet-by-a-specific-user?sid=2 to https://ifttt.com/create/if-new-tweet-by-a-specific-user-then-make-a-web-request?sid=6.
    On the webhook url give your webtask url and append `?tweet_url={{LinkToTweet}}`
 
-## Update the code
+# Deploy updates
 
 `wt update --profile node8 <NAME> main.js`
 
-## Test & Debug
+# Test & Debug
 
 Create the file `config_test.json` along side `main.js`
 
@@ -76,10 +76,14 @@ Create the file `config_test.json` along side `main.js`
 }
 ```
 
-### Test
+## Test
 
 `npm test`
 
-### Debug
+## Debug
 
 `node main.js debug`
+
+# License
+
+[MIT](/LICENSE.md)
