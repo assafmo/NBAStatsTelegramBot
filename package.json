@@ -16,7 +16,9 @@
     "twit": "2.2.9"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "wt-edit": "wt edit --profile node8 NBAStatsTelegramBot",
+    "wt-update": "wt update --profile node8 NBAStatsTelegramBot main.js"
   },
   "devDependencies": {
     "jest": "22.0.3"
