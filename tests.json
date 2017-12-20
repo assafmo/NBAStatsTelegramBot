@@ -1,0 +1,117 @@
+[
+  {
+    "tweetID": "942967289875443712",
+    "isNBA": true,
+    "description": "Rockets keyword"
+  },
+  {
+    "tweetID": "942947504986972160",
+    "isNBA": true,
+    "description": "Keywords in text but no in photo"
+  },
+  {
+    "tweetID": "942915469257986049",
+    "isNBA": true,
+    "description": "MVP Kobe Bryant in text and in photo"
+  },
+  {
+    "tweetID": "942409148938911745",
+    "isNBA": true,
+    "description": "LeBron, Cavs"
+  },
+  {
+    "tweetID": "914644850833809408",
+    "isNBA": false,
+    "description": "NBA blacklist WNBA"
+  },
+  {
+    "tweetID": "928464438339895297",
+    "isNBA": true,
+    "description": "Team and players"
+  },
+  {
+    "tweetID": "928476855358824449",
+    "isNBA": true,
+    "description": "Keywords in text and in quoted"
+  },
+  {
+    "tweetID": "928630758599561216",
+    "isNBA": true,
+    "description": "Warriors, Hawks"
+  },
+  {
+    "tweetID": "928645865270661125",
+    "isNBA": true,
+    "description": "Lonzo Ball"
+  },
+  {
+    "tweetID": "934823312181596162",
+    "isNBA": true,
+    "description": "Keywords in text and in photo"
+  },
+  {
+    "tweetID": "934972949324619776",
+    "isNBA": false,
+    "description": "Kings blacklist Vikings"
+  },
+  {
+    "tweetID": "935871219303198722",
+    "isNBA": true,
+    "description": "LeBron James, LeBron, Matt Barnes, DeMarcus Cousins, NBA"
+  },
+  {
+    "tweetID": "937540795531513857",
+    "isNBA": false,
+    "description": "Hawks blacklist Seahawks"
+  },
+  {
+    "tweetID": "938434111198416896",
+    "isNBA": true,
+    "description": "Bradley Beal only in the photo (OCR)"
+  },
+  {
+    "tweetID": "939365056428560384",
+    "isNBA": true,
+    "description": "Manu Ginóbili with a weird o (special case)"
+  },
+  {
+    "tweetID": "940429812753199104",
+    "isNBA": true,
+    "description": "Triple-double + quoted"
+  },
+  {
+    "tweetID": "942953958263402496",
+    "isNBA": true,
+    "description": "Celtics keyword only in quoted tweet"
+  },
+  {
+    "tweetID": "937078943907221505",
+    "isNBA": true,
+    "description": "Bulls, Nets"
+  },
+  {
+    "tweetID": "938252350585745408",
+    "isNBA": true,
+    "description": "Triple-double retweet"
+  },
+  {
+    "tweetID": "940434956907577349",
+    "isNBA": true,
+    "description": "Rockets keyword (2 photos tweet but no OCR)"
+  },
+  {
+    "tweetID": "941101813113204736",
+    "isNBA": true,
+    "description": "NBA, Eastern Conference, Western Conference"
+  },
+  {
+    "tweetID": "937083443695046657",
+    "isNBA": false,
+    "description": "Double-double in college"
+  },
+  {
+    "tweetID": "939674215619399680",
+    "isNBA": false,
+    "description": "Double-double in college"
+  }
+]
