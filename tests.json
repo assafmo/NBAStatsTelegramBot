@@ -2,12 +2,12 @@
   {
     "tweetID": "942967289875443712",
     "isNBA": true,
-    "description": "Rockets keyword"
+    "description": "Rockets"
   },
   {
     "tweetID": "942947504986972160",
     "isNBA": true,
-    "description": "Keywords in text but no in photo"
+    "description": "Keywords in text but not in photo"
   },
   {
     "tweetID": "942915469257986049",
@@ -27,12 +27,12 @@
   {
     "tweetID": "928464438339895297",
     "isNBA": true,
-    "description": "Team and players"
+    "description": "Team and players keywords"
   },
   {
     "tweetID": "928476855358824449",
     "isNBA": true,
-    "description": "Keywords in text and in quoted"
+    "description": "Keywords in text and in quoted tweet"
   },
   {
     "tweetID": "928630758599561216",
@@ -77,7 +77,7 @@
   {
     "tweetID": "940429812753199104",
     "isNBA": true,
-    "description": "Triple-double + quoted"
+    "description": "Triple-double and quoted tweet"
   },
   {
     "tweetID": "942953958263402496",
@@ -97,7 +97,7 @@
   {
     "tweetID": "940434956907577349",
     "isNBA": true,
-    "description": "Rockets keyword (2 photos tweet but no OCR)"
+    "description": "Rockets keyword (2 photos tweet but nothing in OCR)"
   },
   {
     "tweetID": "941101813113204736",
@@ -112,6 +112,6 @@
   {
     "tweetID": "939674215619399680",
     "isNBA": false,
-    "description": "Double-double in college"
+    "description": "Another double-double in college"
   }
 ]
