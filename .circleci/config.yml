@@ -9,7 +9,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: 
           name: Install dependencies
-          command: npm install
+          command: yarn
       - save_cache:
           paths:
             - node_modules
@@ -19,4 +19,4 @@ jobs:
           command: echo "$CONFIG_TEST" > config_test.json
       - run:
           name: Run tests
-          command: npm test
+          command: yarn test

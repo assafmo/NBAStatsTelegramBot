@@ -78,7 +78,7 @@ Create the file `config_test.json` along side `main.js`
 
 ## Test
 
-`npm test`
+`npm test` / `yarn test`
 
 ## Debug
 
