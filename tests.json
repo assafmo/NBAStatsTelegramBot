@@ -128,5 +128,10 @@
     "tweetID": "944408325751496705",
     "isNBA": true,
     "description": "Retweet"
+  },
+  {
+    "tweetID": "944642938029490176",
+    "isNBA": false,
+    "description": "South Florida Bulls"
   }
 ]
