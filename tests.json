@@ -118,5 +118,15 @@
     "tweetID": "944251191940153344",
     "isNBA": false,
     "description": "College UAB Blazers & Ohio Bobcats"
+  },
+  {
+    "tweetID": "944369028809752576",
+    "isNBA": true,
+    "description": "Retweet"
+  },
+  {
+    "tweetID": "944408325751496705",
+    "isNBA": true,
+    "description": "Retweet"
   }
 ]

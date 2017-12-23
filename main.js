@@ -259,13 +259,21 @@ function getPhotos(tweet) {
   }
 }
 
+function getOriginalTweet(tweet) {
+  if (tweet.retweeted_status) {
+    return tweet.retweeted_status;
+  }
+  return tweet;
+}
+
 async function isNBARelated(tweet, ocrSpaceApiKey) {
+  tweet = getOriginalTweet(tweet);
   let searchText = tweet.full_text;
   let photos = getPhotos(tweet);
 
   // Quoted tweet
   if (tweet.quoted_status) {
-    const quotedTweet = tweet.quoted_status;
+    let quotedTweet = getOriginalTweet(tweet.quoted_status);
 
     if (quotedTweet.full_text) {
       searchText += " " + quotedTweet.full_text;
@@ -346,6 +354,7 @@ async function handleTweet(
 
   console.log(tweet.id_str, "keywords:", foundKeywords.join(","));
 
+  tweet = getOriginalTweet(tweet);
   let finalText = tweet.full_text;
 
   const telegramMessageUrl = `${telegramBotUrl}/sendMessage`;
@@ -449,12 +458,7 @@ if (inDebug) {
     ocr_space_api_key: config.ocr_space_api_key
   };
 
-  const tweetsToCheck = [
-    "942967289875443712",
-    "942947504986972160",
-    "942915469257986049",
-    "942409148938911745"
-  ];
+  const tweetsToCheck = ["944408325751496705", "941101813113204736"];
   for (let tweetID of tweetsToCheck) {
     module.exports(
       {
