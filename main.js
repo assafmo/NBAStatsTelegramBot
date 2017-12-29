@@ -249,7 +249,8 @@ const blacklistPromise = Promise.resolve([
   { is_accepted_because: "triple double", blacklist: "Division I" },
   { is_accepted_because: "Blazers", blacklist: "UAB" },
   { is_accepted_because: "Bobcats", blacklist: "Ohio" },
-  { is_accepted_because: "Bulls", blacklist: "South Florida" }
+  { is_accepted_because: "Bulls", blacklist: "South Florida" },
+  { is_accepted_because: "Hawks", blacklist: "Hartford" }
 ]);
 
 function getPhotos(tweet) {
