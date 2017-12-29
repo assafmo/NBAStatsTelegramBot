@@ -14,24 +14,26 @@ const twitterClient = new Twitter({
 
 const tests = require(path.join(__dirname, "tests.json"));
 for (let testCase of tests) {
-  test(`${testCase.description} | should be "${
-    testCase.isNBA
-  }" | https://twitter.com/ESPNStatsInfo/status/${
-    testCase.tweetID
-  }`, async () => {
-    expect.assertions(1);
+  test(
+    `${testCase.description} | should be "${
+      testCase.isNBA
+    }" | https://twitter.com/ESPNStatsInfo/status/${testCase.tweetID}`,
+    async () => {
+      expect.assertions(1);
 
-    const result = await twitterClient.get("statuses/show/:id", {
-      id: testCase.tweetID,
-      tweet_mode: "extended"
-    });
-    const tweet = result.data;
+      const result = await twitterClient.get("statuses/show/:id", {
+        id: testCase.tweetID,
+        tweet_mode: "extended"
+      });
+      const tweet = result.data;
 
-    const [isNBA, foundKeywords, foundBlacklist] = await isNBARelated(
-      tweet,
-      ocrSpaceApiKey
-    );
+      const [isNBA, foundKeywords, foundBlacklist] = await isNBARelated(
+        tweet,
+        ocrSpaceApiKey
+      );
 
-    expect(isNBA).toBe(testCase.isNBA);
-  });
+      expect(isNBA).toBe(testCase.isNBA);
+    },
+    15000
+  );
 }
