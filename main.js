@@ -162,6 +162,7 @@ const wordsKeywords = Promise.resolve([
   "Manu Ginóbili",
   "King James",
   "Shaq",
+  "Melo",
   // Doubles
   "Double-double",
   "Double Double",
@@ -461,7 +462,7 @@ if (inDebug) {
     ocr_space_api_key: config.ocr_space_api_key
   };
 
-  const tweetsToCheck = ["948022921347334144"];
+  const tweetsToCheck = ["949317065403437058"];
   for (let tweetID of tweetsToCheck) {
     module.exports(
       {
