@@ -237,6 +237,7 @@ const blacklistPromise = Promise.resolve([
   { is_accepted_because: "Hawks", blacklist: "Black Hawks" },
   { is_accepted_because: "Hawks", blacklist: "Blackhawks" },
   { is_accepted_because: "Hawks", blacklist: "Seahawks" },
+  { is_accepted_because: "Hawks", blacklist: "Jayhawks" },
   { is_accepted_because: "Kings", blacklist: "Vikings" },
   { is_accepted_because: "Kings", blacklist: "Rankings" },
   { is_accepted_because: "NBA", blacklist: "WNBA" },
@@ -466,7 +467,7 @@ if (inDebug) {
     ocr_space_api_key: config.ocr_space_api_key
   };
 
-  const tweetsToCheck = ["949317065403437058"];
+  const tweetsToCheck = ["951209535737335813"];
   for (let tweetID of tweetsToCheck) {
     module.exports(
       {
