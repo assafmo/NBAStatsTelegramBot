@@ -287,18 +287,22 @@ async function isNBARelated(tweet, ocrSpaceApiKey) {
 
   // OCR
   for (let photo of photos) {
-    const ocrResult = await requestp.get({
-      url: `https://api.ocr.space/parse/imageurl?apikey=${ocrSpaceApiKey}&url=${
-        photo.media_url_https
-      }`,
-      json: true
-    });
-    if (Array.isArray(ocrResult.ParsedResults)) {
-      for (let res of ocrResult.ParsedResults) {
-        if (res.ParsedText) {
-          searchText += " " + res.ParsedText;
+    try {
+      const ocrResult = await requestp.get({
+        url: `https://api.ocr.space/parse/imageurl?apikey=${ocrSpaceApiKey}&url=${
+          photo.media_url_https
+        }`,
+        json: true
+      });
+      if (Array.isArray(ocrResult.ParsedResults)) {
+        for (let res of ocrResult.ParsedResults) {
+          if (res.ParsedText) {
+            searchText += " " + res.ParsedText;
+          }
         }
       }
+    } catch (ex) {
+      console.log(JSON.stringify({ "ocr.space error": ex }));
     }
   }
 
