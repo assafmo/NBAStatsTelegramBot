@@ -34,6 +34,6 @@ for (let testCase of tests) {
 
       expect(isNBA).toBe(testCase.isNBA);
     },
-    15000
+    60000
   );
 }
