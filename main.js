@@ -293,6 +293,7 @@ async function isNBARelated(tweet, ocrSpaceApiKey) {
         url: `https://api.ocr.space/parse/imageurl?apikey=${ocrSpaceApiKey}&url=${
           photo.media_url_https
         }`,
+        timeout: 20000,
         json: true
       });
       if (Array.isArray(ocrResult.ParsedResults)) {
