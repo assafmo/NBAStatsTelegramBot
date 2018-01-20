@@ -164,8 +164,6 @@ const wordsKeywords = Promise.resolve([
   "Shaq",
   "Melo",
   // Doubles
-  "Double-double",
-  "Double Double",
   "Triple-double",
   "Triple Double",
   "Quadruple-double",
