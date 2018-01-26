@@ -466,7 +466,7 @@ if (inDebug) {
     ocr_space_api_key: config.ocr_space_api_key
   };
 
-  const tweetsToCheck = ["951209535737335813"];
+  const tweetsToCheck = ["954821837581639681"];
   for (let tweetID of tweetsToCheck) {
     module.exports(
       {

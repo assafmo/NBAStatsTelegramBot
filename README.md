@@ -86,4 +86,4 @@ Create the file `config_test.json` along side `main.js`
 
 # License
 
-[MIT](/LICENSE.md)
+[MIT](/LICENSE)
