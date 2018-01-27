@@ -148,5 +148,10 @@
     "tweetID": "586720441882042368",
     "isNBA": true,
     "description": "The Brow"
+  },
+  {
+    "tweetID": "957221652206534656",
+    "isNBA": false,
+    "description": "Blacklist Virginia Cavaliers"
   }
 ]
