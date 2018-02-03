@@ -165,6 +165,10 @@ const wordsKeywords = Promise.resolve([
   "Melo",
   "Boogie",
   "The Brow",
+  "Splash Brothers",
+  "Splash Bros",
+  "Big O",
+  "Giannis",
   // Doubles
   "Triple-double",
   "Triple Double",
