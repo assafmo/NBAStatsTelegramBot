@@ -2,3 +2,4 @@ config.json
 config_test.json
 .vscode
 node_modules
+yarn-error.log

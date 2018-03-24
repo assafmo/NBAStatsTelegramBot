@@ -257,7 +257,8 @@ const blacklistPromise = Promise.resolve([
   { is_accepted_because: "Heat", blacklist: "Tyrone Wheatley" },
   { is_accepted_because: "The Brow", blacklist: "The Browns" },
   { is_accepted_because: "Cavaliers", blacklist: "Virginia" },
-  { is_accepted_because: "Magic", blacklist: "Magical" }
+  { is_accepted_because: "Magic", blacklist: "Magical" },
+  { is_accepted_because: "Bulls", blacklist: "Buffalo" }
 ]);
 
 function getPhotos(tweet) {
