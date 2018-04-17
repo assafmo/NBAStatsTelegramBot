@@ -1,18 +1,15 @@
-const requestp = require("request-promise");
-const request = require("request");
+const request = require("request-promise");
 const Twitter = require("twit");
 
 // Keywords
-const playersKeywords = new Promise((resolve, reject) => {
-  request.get(
-    { url: "http://www.nba.com/players/active_players.json", json: true },
-    (err, resp, json) => {
-      resolve(
-        json.map(x => [x.firstName, x.lastName].filter(x => x).join(" "))
-      );
-    }
-  );
-});
+const playersKeywords = (async () => {
+  const json = await request.get({
+    url: "http://www.nba.com/players/active_players.json",
+    json: true
+  });
+
+  return json.map(x => [x.firstName, x.lastName].filter(x => x).join(" "));
+})();
 const coachesKeywords = Promise.resolve([
   "Brad Stevens",
   "Kenny Atkinson",
@@ -298,7 +295,7 @@ async function isNBARelated(tweet, ocrSpaceApiKey) {
   // OCR
   for (let photo of photos) {
     try {
-      const ocrResult = await requestp.get({
+      const ocrResult = await request.get({
         url: `https://api.ocr.space/parse/imageurl?apikey=${ocrSpaceApiKey}&url=${
           photo.media_url_https
         }`,
@@ -381,7 +378,7 @@ async function handleTweet(
   if (photos && photos.length > 0) {
     for (let photo of photos) {
       finalText = finalText.replace(photo.url, "");
-      request.post({
+      await request.post({
         url: telegramMessageUrl,
         form: {
           chat_id: telegramChatID,
@@ -406,7 +403,7 @@ async function handleTweet(
       .replace(/&copy;/g, `©`)
       .replace(/&reg;/g, `®`);
 
-    request.post({
+    await request.post({
       url: telegramMessageUrl,
       form: {
         chat_id: telegramChatID,
@@ -477,7 +474,7 @@ if (inDebug) {
     ocr_space_api_key: config.ocr_space_api_key
   };
 
-  const tweetsToCheck = ["984594950812774400"];
+  const tweetsToCheck = ["986310826284826624", "986224631974715392"];
   for (let tweetID of tweetsToCheck) {
     module.exports(
       {
