@@ -259,6 +259,9 @@ const blacklistPromise = Promise.resolve([
   { is_accepted_because: "Cavaliers", blacklist: "Virginia" },
   { is_accepted_because: "Magic", blacklist: "Magical" },
   { is_accepted_because: "Bulls", blacklist: "Buffalo" },
+  { is_accepted_because: "Nets", blacklist: "Kuznetsov" },
+  { is_accepted_because: "Kings", blacklist: "NHL" },
+  { is_accepted_because: "Kings", blacklist: "Stanley Cup" },
   { is_accepted_because: "Nets", blacklist: "cut down the nets" }
 ]);
 
@@ -474,7 +477,7 @@ if (inDebug) {
     ocr_space_api_key: config.ocr_space_api_key
   };
 
-  const tweetsToCheck = ["978052661403639810"];
+  const tweetsToCheck = ["984594950812774400"];
   for (let tweetID of tweetsToCheck) {
     module.exports(
       {

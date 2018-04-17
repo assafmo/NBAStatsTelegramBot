@@ -178,5 +178,20 @@
     "tweetID": "978052661403639810",
     "isNBA": false,
     "description": "Blacklist Nets cut down the nets"
+  },
+  {
+    "tweetID": "985030130094477312",
+    "isNBA": false,
+    "description": "Blacklist Kings Stanley Cup"
+  },
+  {
+    "tweetID": "985735023969095681",
+    "isNBA": false,
+    "description": "Blacklist Kings NHL"
+  },
+  {
+    "tweetID": "984594950812774400",
+    "isNBA": false,
+    "description": "Blacklist Nets Kuznetsov"
   }
 ]
