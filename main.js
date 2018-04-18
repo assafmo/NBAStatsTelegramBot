@@ -259,7 +259,37 @@ const blacklistPromise = Promise.resolve([
   { is_accepted_because: "Nets", blacklist: "Kuznetsov" },
   { is_accepted_because: "Kings", blacklist: "NHL" },
   { is_accepted_because: "Kings", blacklist: "Stanley Cup" },
-  { is_accepted_because: "Nets", blacklist: "cut down the nets" }
+  { is_accepted_because: "Nets", blacklist: "cut down the nets" },
+  { is_accepted_because: "Kings", blacklist: "Blackhawks" },
+  { is_accepted_because: "Kings", blacklist: "Avalanche" },
+  { is_accepted_because: "Kings", blacklist: "Stars" },
+  { is_accepted_because: "Kings", blacklist: "Wild" },
+  { is_accepted_because: "Kings", blacklist: "Predators" },
+  { is_accepted_because: "Kings", blacklist: "Blues" },
+  { is_accepted_because: "Kings", blacklist: "Jets" },
+  { is_accepted_because: "Kings", blacklist: "Ducks" },
+  { is_accepted_because: "Kings", blacklist: "Coyotes" },
+  { is_accepted_because: "Kings", blacklist: "Flames" },
+  { is_accepted_because: "Kings", blacklist: "Oilers" },
+  { is_accepted_because: "Kings", blacklist: "Jose Sharks" },
+  { is_accepted_because: "Kings", blacklist: "Canucks" },
+  { is_accepted_because: "Kings", blacklist: "Golden Knights" },
+  { is_accepted_because: "Kings", blacklist: "Bruins" },
+  { is_accepted_because: "Kings", blacklist: "Sabres" },
+  { is_accepted_because: "Kings", blacklist: "Red Wings" },
+  { is_accepted_because: "Kings", blacklist: "Panthers" },
+  { is_accepted_because: "Kings", blacklist: "Canadiens" },
+  { is_accepted_because: "Kings", blacklist: "Senators" },
+  { is_accepted_because: "Kings", blacklist: "Lightning" },
+  { is_accepted_because: "Kings", blacklist: "Maple Leafs" },
+  { is_accepted_because: "Kings", blacklist: "Hurricanes" },
+  { is_accepted_because: "Kings", blacklist: "Blue Jackets" },
+  { is_accepted_because: "Kings", blacklist: "Devils" },
+  { is_accepted_because: "Kings", blacklist: "Islanders" },
+  { is_accepted_because: "Kings", blacklist: "Rangers" },
+  { is_accepted_because: "Kings", blacklist: "Flyers" },
+  { is_accepted_because: "Kings", blacklist: "Penguins" },
+  { is_accepted_because: "Kings", blacklist: "Capitals" }
 ]);
 
 function getPhotos(tweet) {
@@ -474,7 +504,7 @@ if (inDebug) {
     ocr_space_api_key: config.ocr_space_api_key
   };
 
-  const tweetsToCheck = ["986310826284826624", "986224631974715392"];
+  const tweetsToCheck = ["986472135160991745"];
   for (let tweetID of tweetsToCheck) {
     module.exports(
       {
