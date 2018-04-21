@@ -17,8 +17,8 @@
   },
   "scripts": {
     "test": "jest",
-    "wt-edit": "wt edit --profile node8 NBAStatsTelegramBot",
-    "wt-update": "wt update --profile node8 NBAStatsTelegramBot main.js"
+    "wt-edit": "wt edit NBAStatsTelegramBot",
+    "wt-update": "wt update NBAStatsTelegramBot main.js"
   },
   "devDependencies": {
     "jest": "22.0.3"
