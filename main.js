@@ -147,8 +147,6 @@ const teamsKeywords = Promise.resolve([
 ]);
 const wordsKeywords = Promise.resolve([
   "NBA",
-  "Eastern Conference",
-  "Western Conference",
   "Steph Curry",
   "LeBron",
   "J.R. Smith",
@@ -289,7 +287,9 @@ const blacklistPromise = Promise.resolve([
   { is_accepted_because: "Kings", blacklist: "Rangers" },
   { is_accepted_because: "Kings", blacklist: "Flyers" },
   { is_accepted_because: "Kings", blacklist: "Penguins" },
-  { is_accepted_because: "Kings", blacklist: "Capitals" }
+  { is_accepted_because: "Kings", blacklist: "Capitals" },
+  { is_accepted_because: "Shaq", blacklist: "Shaquem Griffin" },
+  { is_accepted_because: "Nets", blacklist: "Goal" }
 ]);
 
 function getPhotos(tweet) {
