@@ -472,6 +472,7 @@ async function handleTweet(
         form: {
           chat_id: telegramChatID,
           parse_mode: "HTML",
+          disable_web_page_preview: false,
           text: `<a href="${photo.media_url_https ||
             photo.display_url ||
             photo.media_url}">&#8203;</a>${finalText}`
@@ -495,6 +496,7 @@ async function handleTweet(
     await request.post({
       url: telegramMessageUrl,
       form: {
+        disable_web_page_preview: false,
         chat_id: telegramChatID,
         text: finalText
       }
