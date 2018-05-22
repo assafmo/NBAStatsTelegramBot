@@ -208,5 +208,10 @@
     "tweetID": "992925890022649857",
     "isNBA": false,
     "description": "Nets blacklist Goal"
+  },
+  {
+    "tweetID": "997565180404875264",
+    "isNBA": true,
+    "description": "MJ"
   }
 ]

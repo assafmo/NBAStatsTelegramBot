@@ -157,6 +157,7 @@ const wordsKeywords = Promise.resolve([
   "Manu Ginóbili",
   "King James",
   "Shaq",
+  "MJ",
   "Melo",
   "Boogie",
   "The Brow",
