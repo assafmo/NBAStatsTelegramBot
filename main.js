@@ -384,7 +384,7 @@ async function isNBARelated(tweet, ocrSpaceApiKey) {
   }
 
   // OCR
-  for (let photo of photos) {
+  for (const photo of photos) {
     try {
       const ocrResult = await request.get({
         url: `https://api.ocr.space/parse/imageurl?apikey=${ocrSpaceApiKey}&url=${
@@ -394,7 +394,7 @@ async function isNBARelated(tweet, ocrSpaceApiKey) {
         json: true
       });
       if (Array.isArray(ocrResult.ParsedResults)) {
-        for (let res of ocrResult.ParsedResults) {
+        for (const res of ocrResult.ParsedResults) {
           if (res.ParsedText) {
             searchText += " " + res.ParsedText;
           }
@@ -405,7 +405,11 @@ async function isNBARelated(tweet, ocrSpaceApiKey) {
     }
   }
 
-  searchText = searchText.replace(/\n/g, "").toLowerCase();
+  for (const photo of photos) {
+    searchText = searchText.replace(photo.url, "");
+  }
+
+  searchText = searchText.toLowerCase();
 
   const [keywords, blacklist] = await Promise.all([
     keywordsPromise,
@@ -413,7 +417,7 @@ async function isNBARelated(tweet, ocrSpaceApiKey) {
   ]);
 
   let foundKeywords = [];
-  for (let keyword of keywords) {
+  for (const keyword of keywords) {
     if (searchText.includes(keyword.toLowerCase())) {
       foundKeywords.push(keyword);
     }
@@ -421,7 +425,7 @@ async function isNBARelated(tweet, ocrSpaceApiKey) {
 
   const foundBlacklist = [];
   foundKeywords = foundKeywords.filter(keyword => {
-    for (let entry of blacklist) {
+    for (const entry of blacklist) {
       if (
         entry.is_accepted_because.toLowerCase() == keyword.toLowerCase() &&
         searchText.includes(entry.blacklist.toLowerCase())
@@ -467,7 +471,7 @@ async function handleTweet(
   const telegramMessageUrl = `${telegramBotUrl}/sendMessage`;
   const photos = getPhotos(tweet);
   if (photos && photos.length > 0) {
-    for (let photo of photos) {
+    for (const photo of photos) {
       finalText = finalText.replace(photo.url, "");
       await request.post({
         url: telegramMessageUrl,
@@ -567,8 +571,13 @@ if (inDebug) {
     ocr_space_api_key: config.ocr_space_api_key
   };
 
-  const tweetsToCheck = ["986472135160991745"];
-  for (let tweetID of tweetsToCheck) {
+  const tweetsToCheck = [
+    "1005548083311185927"
+    // "998736870954749953",
+    // "993257537003769856",
+    // "992925890022649857"
+  ];
+  for (const tweetID of tweetsToCheck) {
     module.exports(
       {
         query: {

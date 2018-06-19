@@ -218,5 +218,10 @@
     "tweetID": "1007678711129260032",
     "isNBA": true,
     "description": "Kawhi"
+  },
+  {
+    "tweetID": "1008339595438841858",
+    "isNBA": false,
+    "description": "MJ in photo url"
   }
 ]
