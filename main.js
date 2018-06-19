@@ -469,21 +469,32 @@ async function handleTweet(
   let finalText = tweet.full_text;
 
   const telegramMessageUrl = `${telegramBotUrl}/sendMessage`;
+  const telegramPhotoUrl = `${telegramBotUrl}/sendPhoto`;
   const photos = getPhotos(tweet);
   if (photos && photos.length > 0) {
     for (const photo of photos) {
       finalText = finalText.replace(photo.url, "");
-      await request.post({
-        url: telegramMessageUrl,
-        form: {
-          chat_id: telegramChatID,
-          parse_mode: "HTML",
-          disable_web_page_preview: false,
-          text: `<a href="${photo.media_url_https ||
-            photo.display_url ||
-            photo.media_url}">&#8203;</a>${finalText}`
-        }
-      });
+      if (finalText.trim().length == 0) {
+        await request.post({
+          url: telegramPhotoUrl,
+          form: {
+            chat_id: telegramChatID,
+            photo: photo.media_url_https || photo.display_url || photo.media_url
+          }
+        });
+      } else {
+        await request.post({
+          url: telegramMessageUrl,
+          form: {
+            chat_id: telegramChatID,
+            parse_mode: "HTML",
+            disable_web_page_preview: false,
+            text: `<a href="${photo.media_url_https ||
+              photo.display_url ||
+              photo.media_url}">&#8203;</a>${finalText}`
+          }
+        });
+      }
     }
   } else {
     finalText = finalText
@@ -572,8 +583,7 @@ if (inDebug) {
   };
 
   const tweetsToCheck = [
-    "1005548083311185927"
-    // "998736870954749953",
+    "998736870954749953"
     // "993257537003769856",
     // "992925890022649857"
   ];
