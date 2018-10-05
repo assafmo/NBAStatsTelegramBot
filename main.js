@@ -411,7 +411,8 @@ async function isNBARelated(tweet, ocrSpaceApiKey) {
     searchText = searchText.replace(photo.url, "");
   }
 
-  searchText = searchText.toLowerCase();
+  searchText += " ";
+  searchText = searchText.toLowerCase().replace(/\bhttps?:\/\/.+?[\s]/, "");
 
   const [keywords, blacklist] = await Promise.all([
     keywordsPromise,
@@ -584,7 +585,7 @@ if (inDebug) {
     ocr_space_api_key: config.ocr_space_api_key
   };
 
-  const tweetsToCheck = ["1031511162360352768"];
+  const tweetsToCheck = ["1046135022783205376"];
   for (const tweetID of tweetsToCheck) {
     module.exports(
       {
