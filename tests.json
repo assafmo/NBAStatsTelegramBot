@@ -210,6 +210,11 @@
     "description": "Nets blacklist Goal"
   },
   {
+    "tweetID": "1041858490183155713",
+    "isNBA": false,
+    "description": "Blacklist Shaq Shaquill Griffin"
+  },
+  {
     "tweetID": "997565180404875264",
     "isNBA": true,
     "description": "MJ"
