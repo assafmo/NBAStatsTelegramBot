@@ -351,6 +351,7 @@ const blacklistPromise = Promise.resolve([
   { is_accepted_because: "Kings", blacklist: "Capitals" },
   { is_accepted_because: "Shaq", blacklist: "Shaquem Griffin" },
   { is_accepted_because: "Shaq", blacklist: "Shaquill Griffin" },
+  { is_accepted_because: "Big O", blacklist: "Big One" },
   { is_accepted_because: "Nets", blacklist: "Goal" }
 ]);
 
@@ -583,7 +584,7 @@ if (inDebug) {
     ocr_space_api_key: config.ocr_space_api_key
   };
 
-  const tweetsToCheck = ["1041858490183155713"];
+  const tweetsToCheck = ["1031511162360352768"];
   for (const tweetID of tweetsToCheck) {
     module.exports(
       {
