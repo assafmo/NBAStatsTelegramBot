@@ -352,7 +352,8 @@ const blacklistPromise = Promise.resolve([
   { is_accepted_because: "Shaq", blacklist: "Shaquem Griffin" },
   { is_accepted_because: "Shaq", blacklist: "Shaquill Griffin" },
   { is_accepted_because: "Big O", blacklist: "Big One" },
-  { is_accepted_because: "Nets", blacklist: "Goal" }
+  { is_accepted_because: "Nets", blacklist: "Goal" },
+  { is_accepted_because: "Heat", blacklist: "Heath" }
 ]);
 
 function getPhotos(tweet) {
@@ -585,7 +586,7 @@ if (inDebug) {
     ocr_space_api_key: config.ocr_space_api_key
   };
 
-  const tweetsToCheck = ["1046135022783205376"];
+  const tweetsToCheck = ["1051699186834579456"];
   for (const tweetID of tweetsToCheck) {
     module.exports(
       {
