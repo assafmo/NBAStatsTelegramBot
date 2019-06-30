@@ -11,9 +11,9 @@
     "url": "https://github.com/assafmo/NBAStatsTelegramBot/issues"
   },
   "dependencies": {
-    "request": "2.83.0",
-    "request-promise": "4.2.2",
-    "twit": "2.2.9"
+    "request": "2.88.0",
+    "request-promise": "4.2.4",
+    "twit": "2.2.11"
   },
   "scripts": {
     "test": "jest",
@@ -21,6 +21,6 @@
     "wt-update": "wt update NBAStatsTelegramBot main.js"
   },
   "devDependencies": {
-    "jest": "22.0.3"
+    "jest": "24.8.0"
   }
 }
