@@ -167,6 +167,7 @@ const wordsKeywords = Promise.resolve([
   "Giannis",
   "Greek Freak",
   "Kawhi",
+  "Luka Dončić",
   // Doubles
   "Triple-double",
   "Triple Double",
@@ -424,9 +425,7 @@ async function isNBARelated(tweet, ocrSpaceApiKey) {
   for (const photo of photos) {
     try {
       const ocrResult = await request.get({
-        url: `https://api.ocr.space/parse/imageurl?apikey=${ocrSpaceApiKey}&url=${
-          photo.media_url_https
-        }`,
+        url: `https://api.ocr.space/parse/imageurl?apikey=${ocrSpaceApiKey}&url=${photo.media_url_https}`,
         timeout: 20000,
         json: true
       });
@@ -569,9 +568,7 @@ async function webtask(ctx, cb) {
   const tweetUrlSplit = ctx.query.tweet_url.split("/");
   const tweetID = tweetUrlSplit[tweetUrlSplit.length - 1];
 
-  const telegramBotUrl = `https://api.telegram.org/bot${
-    ctx.secrets.telegram_bot_key
-  }`;
+  const telegramBotUrl = `https://api.telegram.org/bot${ctx.secrets.telegram_bot_key}`;
   const telegramChatID = ctx.secrets.telegram_chat_id;
 
   const twitterClient = new Twitter({
