@@ -168,6 +168,8 @@ const wordsKeywords = Promise.resolve([
   "Greek Freak",
   "Kawhi",
   "Luka Dončić",
+  "Buzzer-Beater",
+  "Buzzer Beater",
   // Doubles
   "Triple-double",
   "Triple Double",
@@ -617,7 +619,7 @@ if (inDebug) {
     ocr_space_api_key: config.ocr_space_api_key
   };
 
-  const tweetsToCheck = ["1056636469870256129"];
+  const tweetsToCheck = ["1188620269088321539"];
   for (const tweetID of tweetsToCheck) {
     module.exports(
       {
