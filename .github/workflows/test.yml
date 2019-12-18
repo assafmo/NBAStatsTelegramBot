@@ -1,17 +1,16 @@
-name: Node CI
+name: Test
 
 on: [push]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
           node-version: 8.9.4 # webtask's nodejs version
-      - name: Test
-        env:
+      - env:
           CONFIG_TEST: ${{ secrets.CONFIG_TEST }}
         run: |
           echo "$CONFIG_TEST" > config_test.json
