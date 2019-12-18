@@ -6,11 +6,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Test
-        # uses: actions/setup-node@v1
-        # uses: actions/checkout@v1
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
         with:
           node-version: 8.9.4 # webtask's nodejs version
+      - name: Test
         env:
           CONFIG_TEST: ${{ secrets.CONFIG_TEST }}
         run: |
