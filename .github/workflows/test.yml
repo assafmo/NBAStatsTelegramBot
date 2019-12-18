@@ -12,7 +12,6 @@ jobs:
           node-version: 8.9.4 # webtask's nodejs version
       - env:
           CONFIG_TEST: ${{ secrets.CONFIG_TEST }}
-        run: |
-          echo "$CONFIG_TEST" > config_test.json
-          yarn
-          yarn test
+        run: echo "$CONFIG_TEST" > config_test.json
+      - run: yarn install
+      - run: yarn test
