@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: 8.9.4
+          node-version: 8.9.4 # webtask's nodejs version
       - env:
           CONFIG_TEST: ${{ secrets.CONFIG_TEST }}
         run: |
