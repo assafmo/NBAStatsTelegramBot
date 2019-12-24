@@ -516,21 +516,17 @@ async function handleTweet(
       finalText = finalText.replace(photo.url, "");
       if (finalText.trim().length == 0) {
         await axios.post(telegramPhotoUrl, {
-          data: {
-            chat_id: telegramChatID,
-            photo: photo.media_url_https || photo.display_url || photo.media_url
-          }
+          chat_id: telegramChatID,
+          photo: photo.media_url_https || photo.display_url || photo.media_url
         });
       } else {
         await axios.post(telegramMessageUrl, {
-          data: {
-            chat_id: telegramChatID,
-            parse_mode: "HTML",
-            disable_web_page_preview: false,
-            text: `<a href="${photo.media_url_https ||
-              photo.display_url ||
-              photo.media_url}">&#8203;</a>${finalText}`
-          }
+          chat_id: telegramChatID,
+          parse_mode: "HTML",
+          disable_web_page_preview: false,
+          text: `<a href="${photo.media_url_https ||
+            photo.display_url ||
+            photo.media_url}">&#8203;</a>${finalText}`
         });
       }
     }
@@ -549,11 +545,9 @@ async function handleTweet(
       .replace(/&reg;/g, `®`);
 
     await axios.post(telegramMessageUrl, {
-      data: {
-        disable_web_page_preview: false,
-        chat_id: telegramChatID,
-        text: finalText
-      }
+      disable_web_page_preview: false,
+      chat_id: telegramChatID,
+      text: finalText
     });
   }
 
@@ -617,7 +611,7 @@ if (inDebug) {
     ocr_space_api_key: config.ocr_space_api_key
   };
 
-  const tweetsToCheck = ["1203882400226390017"];
+  const tweetsToCheck = ["1188620269088321539"];
   for (const tweetID of tweetsToCheck) {
     module.exports(
       {
