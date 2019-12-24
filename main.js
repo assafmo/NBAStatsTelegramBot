@@ -1,14 +1,13 @@
-const request = require("request-promise");
+const axios = require("axios");
 const Twitter = require("twit");
 
 // Keywords
 const playersKeywords = (async () => {
-  const json = await request.get({
-    url: "http://www.nba.com/players/active_players.json",
-    json: true
-  });
+  const { data } = await axios.get(
+    "http://www.nba.com/players/active_players.json"
+  );
 
-  return json.map(x => [x.firstName, x.lastName].filter(x => x).join(" "));
+  return data.map(x => [x.firstName, x.lastName].filter(x => x).join(" "));
 })();
 const coachesKeywords = Promise.resolve([
   "Lloyd Pierce",
@@ -427,13 +426,14 @@ async function isNBARelated(tweet, ocrSpaceApiKey) {
   // OCR
   for (const photo of photos) {
     try {
-      const ocrResult = await request.get({
-        url: `https://api.ocr.space/parse/imageurl?apikey=${ocrSpaceApiKey}&url=${photo.media_url_https}`,
-        timeout: 20000,
-        json: true
-      });
-      if (Array.isArray(ocrResult.ParsedResults)) {
-        for (const res of ocrResult.ParsedResults) {
+      const {
+        data
+      } = await axios.get(
+        `https://api.ocr.space/parse/imageurl?apikey=${ocrSpaceApiKey}&url=${photo.media_url_https}`,
+        { timeout: 20000 }
+      );
+      if (Array.isArray(data.ParsedResults)) {
+        for (const res of data.ParsedResults) {
           if (res.ParsedText) {
             searchText += " " + res.ParsedText;
           }
@@ -515,17 +515,15 @@ async function handleTweet(
     for (const photo of photos) {
       finalText = finalText.replace(photo.url, "");
       if (finalText.trim().length == 0) {
-        await request.post({
-          url: telegramPhotoUrl,
-          form: {
+        await axios.post(telegramPhotoUrl, {
+          data: {
             chat_id: telegramChatID,
             photo: photo.media_url_https || photo.display_url || photo.media_url
           }
         });
       } else {
-        await request.post({
-          url: telegramMessageUrl,
-          form: {
+        await axios.post(telegramMessageUrl, {
+          data: {
             chat_id: telegramChatID,
             parse_mode: "HTML",
             disable_web_page_preview: false,
@@ -550,9 +548,8 @@ async function handleTweet(
       .replace(/&copy;/g, `©`)
       .replace(/&reg;/g, `®`);
 
-    await request.post({
-      url: telegramMessageUrl,
-      form: {
+    await axios.post(telegramMessageUrl, {
+      data: {
         disable_web_page_preview: false,
         chat_id: telegramChatID,
         text: finalText
