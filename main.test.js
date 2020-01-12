@@ -23,10 +23,7 @@ for (const testCase of tests) {
     });
     const tweet = result.data;
 
-    const [isNBA, foundKeywords, foundBlacklist] = await isNBARelated(
-      tweet,
-      ocrSpaceApiKey
-    );
+    const [isNBA, foundKeywords, foundBlacklist] = await isNBARelated(tweet, ocrSpaceApiKey);
 
     expect(isNBA).toBe(testCase.isNBA);
   }, 60000);

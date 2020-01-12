@@ -3,9 +3,7 @@ const Twitter = require("twit");
 
 // Keywords
 const playersKeywords = (async () => {
-  const { data } = await axios.get(
-    "http://www.nba.com/players/active_players.json"
-  );
+  const { data } = await axios.get("http://www.nba.com/players/active_players.json");
 
   return data.map(x => [x.firstName, x.lastName].filter(x => x).join(" "));
 })();
@@ -325,9 +323,7 @@ const keywordsPromise = Promise.all([
   teamsKeywords,
   draftKeywords,
   wordsKeywords
-]).then(keywordsArrays =>
-  keywordsArrays.reduce((x, y) => Array.from(new Set(x.concat(y))), [])
-);
+]).then(keywordsArrays => keywordsArrays.reduce((x, y) => Array.from(new Set(x.concat(y))), []));
 
 const blacklistPromise = Promise.resolve([
   { is_accepted_because: "Hawks", blacklist: "Black Hawks" },
@@ -451,10 +447,7 @@ async function isNBARelated(tweet, ocrSpaceApiKey) {
   searchText += " ";
   searchText = searchText.toLowerCase().replace(/\bhttps?:\/\/.+?[\s]/, "");
 
-  const [keywords, blacklist] = await Promise.all([
-    keywordsPromise,
-    blacklistPromise
-  ]);
+  const [keywords, blacklist] = await Promise.all([keywordsPromise, blacklistPromise]);
 
   let foundKeywords = [];
   for (const keyword of keywords) {
@@ -480,19 +473,10 @@ async function isNBARelated(tweet, ocrSpaceApiKey) {
   return [foundKeywords.length > 0, foundKeywords, foundBlacklist];
 }
 
-async function handleTweet(
-  tweet,
-  telegramBotUrl,
-  telegramChatID,
-  ocrSpaceApiKey,
-  cb
-) {
+async function handleTweet(tweet, telegramBotUrl, telegramChatID, ocrSpaceApiKey, cb) {
   cb = cb || (() => {});
 
-  const [nbaRelated, foundKeywords, foundBlacklist] = await isNBARelated(
-    tweet,
-    ocrSpaceApiKey
-  );
+  const [nbaRelated, foundKeywords, foundBlacklist] = await isNBARelated(tweet, ocrSpaceApiKey);
 
   if (foundBlacklist.length > 0) {
     console.log(tweet.id_str, "blacklist:", foundBlacklist.join(","));
@@ -524,9 +508,7 @@ async function handleTweet(
           chat_id: telegramChatID,
           parse_mode: "HTML",
           disable_web_page_preview: false,
-          text: `<a href="${photo.media_url_https ||
-            photo.display_url ||
-            photo.media_url}">&#8203;</a>${finalText}`
+          text: `<a href="${photo.media_url_https || photo.display_url || photo.media_url}">&#8203;</a>${finalText}`
         });
       }
     }
@@ -579,13 +561,7 @@ async function webtask(ctx, cb) {
     });
 
     const tweet = result.data;
-    handleTweet(
-      tweet,
-      telegramBotUrl,
-      telegramChatID,
-      ctx.secrets.ocr_space_api_key,
-      cb
-    );
+    handleTweet(tweet, telegramBotUrl, telegramChatID, ctx.secrets.ocr_space_api_key, cb);
   } catch (err) {
     if (err) {
       return cb(null, { error: err });
@@ -596,8 +572,7 @@ async function webtask(ctx, cb) {
 module.exports = webtask;
 module.exports.isNBARelated = isNBARelated;
 
-const inDebug =
-  process && Array.isArray(process.argv) && process.argv[2] === "debug";
+const inDebug = process && Array.isArray(process.argv) && process.argv[2] === "debug";
 if (inDebug) {
   const config = require(require("path").join(__dirname, "config_test.json"));
 
