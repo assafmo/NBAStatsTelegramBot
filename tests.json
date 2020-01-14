@@ -22,7 +22,7 @@
   {
     "tweetID": "914644850833809408",
     "isNBA": false,
-    "description": "NBA blacklist WNBA"
+    "description": "Blacklist WNBA contains NBA"
   },
   {
     "tweetID": "928464438339895297",
@@ -52,7 +52,7 @@
   {
     "tweetID": "934972949324619776",
     "isNBA": false,
-    "description": "Kings blacklist Vikings"
+    "description": "Blacklist Vikings contains Kings"
   },
   {
     "tweetID": "935871219303198722",
@@ -62,7 +62,7 @@
   {
     "tweetID": "937540795531513857",
     "isNBA": false,
-    "description": "Hawks blacklist Seahawks"
+    "description": "Blacklist Seahawks contains Hawks"
   },
   {
     "tweetID": "938434111198416896",
@@ -132,7 +132,7 @@
   {
     "tweetID": "948022921347334144",
     "isNBA": false,
-    "description": "Blacklist Tyrone Wheatley Heat"
+    "description": "Blacklist Tyrone Wheatley Heat contains Heat"
   },
   {
     "tweetID": "949317065403437058",
@@ -157,12 +157,12 @@
   {
     "tweetID": "960551090780450816",
     "isNBA": false,
-    "description": "Blacklist The Brow The Browns"
+    "description": "Blacklist The Browns contains The Brow"
   },
   {
     "tweetID": "962833004962906112",
     "isNBA": false,
-    "description": "Blacklist Magic Magical"
+    "description": "Blacklist Magical contains Magic"
   },
   {
     "tweetID": "974493461754925057",
@@ -177,7 +177,7 @@
   {
     "tweetID": "978052661403639810",
     "isNBA": false,
-    "description": "Blacklist Nets cut down the nets"
+    "description": "Blacklist cut down the nets contains Nets"
   },
   {
     "tweetID": "985030130094477312",
@@ -192,7 +192,7 @@
   {
     "tweetID": "984594950812774400",
     "isNBA": false,
-    "description": "Blacklist Nets Kuznetsov"
+    "description": "Blacklist Kuznetsov contains Nets"
   },
   {
     "tweetID": "986441417676460032",
@@ -202,23 +202,23 @@
   {
     "tweetID": "990291804242219009",
     "isNBA": false,
-    "description": "Shaquem Griffin blacklist Shaq"
+    "description": "Blacklist Shaquem Griffin contains Shaq"
   },
   {
     "tweetID": "1031511162360352768",
     "isNBA": false,
-    "description": "Big O Blacklist Big One"
+    "description": "Blacklist Big One contains Big O"
   },
 
   {
     "tweetID": "992925890022649857",
     "isNBA": false,
-    "description": "Nets blacklist Goal"
+    "description": "Blacklist Goal + Nets"
   },
   {
     "tweetID": "1041858490183155713",
     "isNBA": false,
-    "description": "Blacklist Shaq Shaquill Griffin"
+    "description": "Blacklist Shaquill Griffin contains Shaq"
   },
   {
     "tweetID": "997565180404875264",
@@ -238,12 +238,12 @@
   {
     "tweetID": "1051699186834579456",
     "isNBA": false,
-    "description": "Heat Heath blacklist"
+    "description": "Blacklist Heath contains Heat"
   },
   {
     "tweetID": "1056636469870256129",
     "isNBA": false,
-    "description": "Magic Fitzmagic blacklist"
+    "description": "Blacklist Fitzmagic contains Magic"
   },
   {
     "tweetID": "1188620269088321539",
@@ -253,6 +253,7 @@
   {
     "tweetID": "1203882400226390017",
     "isNBA": false,
+    "description": "Blacklist Dunbar contains NBA"
   },
   {
     "tweetID": "1216803626896777216",
