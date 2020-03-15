@@ -330,6 +330,7 @@ const blacklistPromise = Promise.resolve([
   { is_accepted_because: "Hawks", blacklist: "Blackhawks" },
   { is_accepted_because: "Hawks", blacklist: "Seahawks" },
   { is_accepted_because: "Hawks", blacklist: "Jayhawks" },
+  { is_accepted_because: "Hawks", blacklist: "Battlehawks" },
   { is_accepted_because: "Kings", blacklist: "Vikings" },
   { is_accepted_because: "Kings", blacklist: "Rankings" },
   { is_accepted_because: "NBA", blacklist: "WNBA" },
