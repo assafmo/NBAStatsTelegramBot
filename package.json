@@ -11,7 +11,7 @@
     "url": "https://github.com/assafmo/NBAStatsTelegramBot/issues"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.19.0",
     "twit": "2.2.11"
   },
   "scripts": {
@@ -20,7 +20,7 @@
     "wt-update": "wt update NBAStatsTelegramBot main.js"
   },
   "devDependencies": {
-    "jest": "25.1.0"
+    "jest": "24.9.0"
   },
   "jest": {
     "testEnvironment": "node"
