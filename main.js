@@ -3,43 +3,35 @@ const Twitter = require("twit");
 
 // Keywords
 const playersKeywords = (async () => {
-  const { data } = await axios.get("http://www.nba.com/players/active_players.json");
+  const { data } = await axios.get("https://www.basketball-reference.com/leagues/NBA_2021_totals.html");
 
-  return data.map(x => [x.firstName, x.lastName].filter(x => x).join(" "));
+  const players = Array.from(
+    new Set(
+      data
+        .split(`data-stat="player"`)
+        .slice(1)
+        .map((row) => row.split("</a>")[0].split(">").slice(-1)[0])
+        .filter((row) => !row.includes("<"))
+    )
+  );
+
+  return players;
 })();
-const coachesKeywords = Promise.resolve([
-  "Lloyd Pierce",
-  "Brad Stevens",
-  "Kenny Atkinson",
-  "James Borrego",
-  "Jim Boylen",
-  "John Beilein",
-  "Rick Carlisle",
-  "Michael Malone",
-  "Dwane Casey",
-  "Steve Kerr",
-  "Mike D'Antoni",
-  "Mike DAntoni",
-  "Nate McMillan",
-  "Doc Rivers",
-  "Frank Vogel",
-  "Taylor Jenkins",
-  "Erik Spoelstra",
-  "Mike Budenholze",
-  "Ryan Saunders",
-  "Alvin Gentry",
-  "David Fizdale",
-  "Billy Donovan",
-  "Steve Clifford",
-  "Brett Brown",
-  "Monty Williams",
-  "Terry Stotts",
-  "Luke Walton",
-  "Gregg Popovich",
-  "Nick Nurse",
-  "Quin Snyder",
-  "Scott Brooks"
-]);
+const coachesKeywords = (async () => {
+  const { data } = await axios.get("https://www.basketball-reference.com/leagues/NBA_2021_coaches.html");
+
+  const coaches = Array.from(
+    new Set(
+      data
+        .split(`data-stat="coach"`)
+        .slice(1)
+        .map((row) => row.split("</a>")[0].split(">").slice(-1)[0])
+        .filter((row) => !row.includes("<"))
+    )
+  );
+
+  return coaches;
+})();
 const mvpsKeywords = Promise.resolve([
   "Allen Iverson",
   "Bill Russell",
@@ -72,7 +64,7 @@ const mvpsKeywords = Promise.resolve([
   "Wes Unseld",
   "Willis Reed",
   "Wilt Chamberlain",
-  "Russell Westbrook"
+  "Russell Westbrook",
 ]);
 const teamsKeywords = Promise.resolve([
   "Boston Celtics",
@@ -140,7 +132,7 @@ const teamsKeywords = Promise.resolve([
   "Utah Jazz",
   "Jazz",
   "Sacramento Kings",
-  "Kings"
+  "Kings",
 ]);
 const wordsKeywords = Promise.resolve([
   "NBA",
@@ -218,7 +210,7 @@ const wordsKeywords = Promise.resolve([
   "Phil Jackson",
   "Red Auerbach",
   "Rick Adelman",
-  "Tom Heinsohn"
+  "Tom Heinsohn",
 ]);
 const draftKeywords = Promise.resolve([
   "Admiral Schofield",
@@ -313,7 +305,7 @@ const draftKeywords = Promise.resolve([
   "Tyus Battle",
   "Zach Norvell Jr.",
   "Zion Williamson",
-  "Zylan Cheatham"
+  "Zylan Cheatham",
 ]);
 
 const keywordsPromise = Promise.all([
@@ -322,8 +314,8 @@ const keywordsPromise = Promise.all([
   mvpsKeywords,
   teamsKeywords,
   draftKeywords,
-  wordsKeywords
-]).then(keywordsArrays => keywordsArrays.reduce((x, y) => Array.from(new Set(x.concat(y))), []));
+  wordsKeywords,
+]).then((keywordsArrays) => keywordsArrays.reduce((x, y) => Array.from(new Set(x.concat(y))), []));
 
 const blacklistPromise = Promise.resolve([
   { is_accepted_because: "Hawks", blacklist: "Black Hawks" },
@@ -389,12 +381,12 @@ const blacklistPromise = Promise.resolve([
   { is_accepted_because: "Heat", blacklist: "Heath" },
   { is_accepted_because: "Magic", blacklist: "Fitzmagic" },
   { is_accepted_because: "NBA", blacklist: "Dunbar" },
-  { is_accepted_because: "Heat", blacklist: "cheat" }
+  { is_accepted_because: "Heat", blacklist: "cheat" },
 ]);
 
 function getPhotos(tweet) {
   if (tweet.extended_entities && Array.isArray(tweet.extended_entities.media)) {
-    return tweet.extended_entities.media.filter(m => m.type == "photo");
+    return tweet.extended_entities.media.filter((m) => m.type == "photo");
   } else {
     return [];
   }
@@ -426,7 +418,7 @@ async function isNBARelated(tweet, ocrSpaceApiKey) {
   for (const photo of photos) {
     try {
       const {
-        data
+        data,
       } = await axios.get(
         `https://api.ocr.space/parse/imageurl?apikey=${ocrSpaceApiKey}&url=${photo.media_url_https}`,
         { timeout: 20000 }
@@ -460,7 +452,7 @@ async function isNBARelated(tweet, ocrSpaceApiKey) {
   }
 
   const foundBlacklist = [];
-  foundKeywords = foundKeywords.filter(keyword => {
+  foundKeywords = foundKeywords.filter((keyword) => {
     for (const entry of blacklist) {
       if (
         entry.is_accepted_because.toLowerCase() == keyword.toLowerCase() &&
@@ -504,14 +496,14 @@ async function handleTweet(tweet, telegramBotUrl, telegramChatID, ocrSpaceApiKey
       if (finalText.trim().length == 0) {
         await axios.post(telegramPhotoUrl, {
           chat_id: telegramChatID,
-          photo: photo.media_url_https || photo.display_url || photo.media_url
+          photo: photo.media_url_https || photo.display_url || photo.media_url,
         });
       } else {
         await axios.post(telegramMessageUrl, {
           chat_id: telegramChatID,
           parse_mode: "HTML",
           disable_web_page_preview: false,
-          text: `<a href="${photo.media_url_https || photo.display_url || photo.media_url}">&#8203;</a>${finalText}`
+          text: `<a href="${photo.media_url_https || photo.display_url || photo.media_url}">&#8203;</a>${finalText}`,
         });
       }
     }
@@ -532,7 +524,7 @@ async function handleTweet(tweet, telegramBotUrl, telegramChatID, ocrSpaceApiKey
     await axios.post(telegramMessageUrl, {
       disable_web_page_preview: false,
       chat_id: telegramChatID,
-      text: finalText
+      text: finalText,
     });
   }
 
@@ -554,13 +546,13 @@ async function webtask(ctx, cb) {
     consumer_key: ctx.secrets.twitter_consumer_key,
     consumer_secret: ctx.secrets.twitter_consumer_secret,
     access_token: ctx.secrets.twitter_access_token_key,
-    access_token_secret: ctx.secrets.twitter_access_token_secret
+    access_token_secret: ctx.secrets.twitter_access_token_secret,
   });
 
   try {
     const result = await twitterClient.get("statuses/show/:id", {
       id: tweetID,
-      tweet_mode: "extended"
+      tweet_mode: "extended",
     });
 
     const tweet = result.data;
@@ -586,7 +578,7 @@ if (inDebug) {
     twitter_access_token_secret: config.twitter.access_token_secret,
     telegram_bot_key: config.telegram.bot_key,
     telegram_chat_id: config.telegram.chat_id,
-    ocr_space_api_key: config.ocr_space_api_key
+    ocr_space_api_key: config.ocr_space_api_key,
   };
 
   const tweetsToCheck = ["1233941796473970688"];
@@ -594,11 +586,11 @@ if (inDebug) {
     module.exports(
       {
         query: {
-          tweet_url: `https://twitter.com/ESPNStatsInfo/status/${tweetID}`
+          tweet_url: `https://twitter.com/ESPNStatsInfo/status/${tweetID}`,
         },
-        secrets: webtaskSecrets
+        secrets: webtaskSecrets,
       },
-      function() {
+      function () {
         console.log("webtask callback:", ...arguments);
       }
     );
