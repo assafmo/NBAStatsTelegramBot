@@ -65,7 +65,6 @@ Create the file `config_test.json` along side `main.js`
     "bot_key": "<YOUR_TELEGRAM_BOT_KEY>"
   },
   "twitter": {
-    "account_id_to_follow": "<get at http://idfromuser.com>",
     "consumer_key": "<get at https://apps.twitter.com/app/XXXXXXXX/keys>",
     "consumer_secret": "<get at https://apps.twitter.com/app/XXXXXXXX/keys>",
     "access_token_key": "<get at https://apps.twitter.com/app/XXXXXXXX/keys>",
